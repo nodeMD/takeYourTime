@@ -1,0 +1,67 @@
+<h2>Sign In</h2>
+<% @user ||= User.new %>
+<% if @user.errors.any? %>
+  <ul class="errors">
+    <% @user.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+<% end %>
+<form action="/signup" method="post" id="signup-form">
+  <div class="form-group">
+    <label for="nickname">Nickname:</label>
+    <input type="text" name="nickname" id="nickname" required minlength="5" value="<%= @user.nickname %>">
+    <span id="nickname-error" class="error"></span>
+    <% if @user.errors[:nickname].any? %>
+      <span class="error"><%= @user.errors[:nickname].join(', ') %></span>
+    <% end %>
+  </div>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" required minlength="8">
+    <span id="password-error" class="error"></span>
+    <% if @user.errors[:password].any? %>
+      <span class="error"><%= @user.errors[:password].join(', ') %></span>
+    <% end %>
+  </div>
+  <div class="form-group">
+    <label for="password_confirmation">Confirm Password:</label>
+    <input type="password" name="password_confirmation" id="password_confirmation" required minlength="8">
+    <span id="password-confirmation-error" class="error"></span>
+    <% if @user.errors[:password_confirmation].any? %>
+      <span class="error"><%= @user.errors[:password_confirmation].join(', ') %></span>
+    <% end %>
+  </div>
+  <button type="submit" id="signup-btn" class="btn" disabled>Sign In</button>
+</form>
+<script>
+const form = document.getElementById('signup-form');
+const btn = document.getElementById('signup-btn');
+const nickname = document.getElementById('nickname');
+const pass = document.getElementById('password');
+const pass2 = document.getElementById('password_confirmation');
+const nicknameError = document.getElementById('nickname-error');
+const passwordError = document.getElementById('password-error');
+const passwordConfirmError = document.getElementById('password-confirmation-error');
+
+function validate() {
+  let valid = true;
+  nicknameError.textContent = '';
+  passwordError.textContent = '';
+  passwordConfirmError.textContent = '';
+  if (nickname.value.length < 5) {
+    nicknameError.textContent = 'Nickname must be at least 5 characters.';
+    valid = false;
+  }
+  if (pass.value.length < 8) {
+    passwordError.textContent = 'Password must be at least 8 characters.';
+    valid = false;
+  }
+  if (pass.value !== pass2.value) {
+    passwordConfirmError.textContent = 'Passwords must match.';
+    valid = false;
+  }
+  btn.disabled = !valid;
+}
+[nickname, pass, pass2].forEach(el=>el.addEventListener('input', validate));
+</script>
