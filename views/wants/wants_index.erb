@@ -1,0 +1,24 @@
+<h2>Your Wants</h2>
+<% if @wants.empty? %>
+  <p>You do not want anything yet. Create something!</p>
+<% else %>
+  <ul>
+    <% @wants.each do |wants| %>
+      <li>
+        <strong>ID:</strong> <a href="/want/<%= wants.id %>"><%= wants.id %></a><br>
+        <strong>What:</strong> <%= wants.what %>
+      </li>
+    <% end %>
+  </ul>
+  <div class="pagination">
+    <% if @page > 1 %>
+      <a href="/want?page=<%= @page - 1 %>">Previous</a>
+    <% end %>
+    Page <%= @page %> of <%= @total_pages %>
+    <% if @page < @total_pages %>
+      <a href="/want?page=<%= @page + 1 %>">Next</a>
+    <% end %>
+  </div>
+<% end %>
+<a href="/want/new" class="btn">Create New</a>
+<a href="/app" class="btn">Back to Main Page</a>

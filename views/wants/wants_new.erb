@@ -1,0 +1,18 @@
+<h2>Write what you want</h2>
+<% if @errors %>
+  <ul class="errors">
+    <% @errors.each do |e| %>
+      <li><%= e %></li>
+    <% end %>
+  </ul>
+<% end %>
+<form action="/want" method="post">
+  <label>What do you want?</label><br>
+  <input type="text" name="what" maxlength="1000" required><br>
+
+  <label>How do you want to achieve it? What is your plan?</label><br>
+  <textarea name="how" maxlength="10000"></textarea><br>
+
+  <button type="submit" class="btn">Save</button>
+  <a href="/want" class="btn" onclick="return confirm('Are you sure, your changes will be discarded?')">Back to list</a>
+</form>

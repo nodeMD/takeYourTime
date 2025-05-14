@@ -1,0 +1,20 @@
+<h2><%= @title %></h2>
+<% if @errors %>
+  <ul class="errors">
+    <% @errors.each do |e| %>
+      <li><%= e %></li>
+    <% end %>
+  </ul>
+<% end %>
+<form action="/want/<%= @want.id %>" method="post">
+  <label>What:</label><br>
+  <input type="text" name="what" value="<%= @want.what %>" maxlength="1000" required><br>
+
+  <label>How:</label><br>
+  <textarea name="how" maxlength="10000"><%= @want.how %></textarea><br>
+
+  <button type="submit" class="btn">Update</button>
+</form>
+
+<a href="/want/<%= @want.id %>" class="btn">Cancel</a>
+<a href="/want" class="btn" onclick="return confirm('Are you sure, your changes will be discarded?')">Back to list</a>
