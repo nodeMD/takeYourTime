@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title><%= @title || 'TakeYourTime' %></title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <button id="theme-toggle" aria-label="Toggle theme" style="background:none;border:none;font-size:1.5em;cursor:pointer;">🌙</button>
+    <nav>
+      <% if current_user %>
+        <a href="/logout" class="btn">Log Out</a>
+      <% else %>
+        <a href="/signup" class="btn">Sign In</a>
+        <a href="/login" class="btn">Log In</a>
+      <% end %>
+    </nav>
+  </header>
+  <main>
+    <%= yield %>
+  </main>
+  <script src="/theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+:root {
+  --bg: #fafafa;
+  --text: #000000;
+  --header-bg: #ffffff;
+  --btn-bg: #007BFF;
+  --btn-bg-hover: #0056b3;
+  --btn-text: #000000;
+  --border: #ccc;
+  --link: #1565c0;
+  --link-hover: #004ba0;
+}
+[data-theme="dark"] {
+  --bg: #121212;
+  --text: #eeeeee;
+  --header-bg: #1a1a1a;
+  --btn-bg: #37474f;
+  --btn-bg-hover: #566875;
+  --btn-text: #ffffff;
+  --border: #444;
+  --link: #80cbc4;
+  --link-hover: #4fb3a7;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+header {
+  background: var(--header-bg);
+  padding: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+nav {
+  text-align: right;
+}
+
+nav .btn {
+  color: var(--btn-text);
+  text-decoration: none;
+  margin-left: 10px;
+  padding: 6px 12px;
+  background: var(--btn-bg);
+  border-radius: 4px;
+}
+
+nav .btn:hover {
+  background: var(--btn-bg-hover);
+}
+
+main {
+  padding: 20px;
+}
+
+.errors {
+  color: red;
+}
+
+.error {
+  color: red;
+}
+
+/* General button styling */
+.btn {
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px;
+}
+
+.btn:hover {
+  background: var(--btn-bg-hover);
+}
+
+/* Form layout */
+.form-group {
+  margin-bottom: 1em;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 0.5em;
+}
+input, textarea, select {
+  width: 100%;
+  box-sizing: border-box;
+}
+textarea {
+  min-height: 4em;
+}
+
+/* Style form elements for theme */
+input, textarea, select {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 6px;
+  border-radius: 4px;
+}
+input::placeholder, textarea::placeholder {
+  color: var(--text);
+  opacity: 0.6;
+}
+label {
+  color: var(--text);
+  font-weight: bold;
+}
+
+/* Link styling (excluding .btn) */
+a:not(.btn) {
+  color: var(--link);
+  text-decoration: none;
+}
+a:not(.btn):hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+}
