@@ -1,0 +1,21 @@
+<h2>Create New Need</h2>
+<% if @errors %>
+  <ul class="errors">
+    <% @errors.each do |e| %>
+      <li><%= e %></li>
+    <% end %>
+  </ul>
+<% end %>
+<form action="/need" method="post">
+  <label>What do you need?</label><br>
+  <input type="text" name="what" maxlength="1000" required><br>
+
+  <label>What will be the benefits?</label><br>
+  <textarea name="benefits" maxlength="10000"></textarea><br>
+
+  <label>What will be the cons?</label><br>
+  <textarea name="cons" maxlength="10000"></textarea><br>
+
+  <button type="submit" class="btn">Save</button>
+  <a href="/need" class="btn" onclick="return confirm('Are you sure, your changes will be discarded?')">Back to list</a>
+</form>

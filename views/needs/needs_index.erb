@@ -1,0 +1,24 @@
+<h2>Your Needs</h2>
+<% if @needs.empty? %>
+  <p>No needs yet. Create one!</p>
+<% else %>
+  <ul>
+    <% @needs.each do |need| %>
+      <li>
+        <strong>ID:</strong> <a href="/need/<%= need.id %>"><%= need.id %></a><br>
+        <strong>What:</strong> <%= need.what %>
+      </li>
+    <% end %>
+  </ul>
+  <div class="pagination">
+    <% if @page > 1 %>
+      <a href="/need?page=<%= @page - 1 %>">Previous</a>
+    <% end %>
+    Page <%= @page %> of <%= @total_pages %>
+    <% if @page < @total_pages %>
+      <a href="/need?page=<%= @page + 1 %>">Next</a>
+    <% end %>
+  </div>
+<% end %>
+<a href="/need/new" class="btn">Create New</a>
+<a href="/app" class="btn">Back to Main Page</a>

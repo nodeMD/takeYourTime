@@ -1,0 +1,25 @@
+<h2><%= @title %></h2>
+<ul>
+  <li><strong>ID:</strong> <%= @need.id %></li>
+  <li><strong>What:</strong> <%= @need.what %></li>
+  <li><strong>Benefits:</strong> <%= @need.benefits %></li>
+  <li><strong>Cons:</strong> <%= @need.cons %></li>
+</ul>
+
+<button id="tts-btn" class="btn">🔊 Read Aloud</button>
+<div id="need-text" style="display:none;">
+  What: <%= @need.what %>. Benefits: <%= @need.benefits %>. Cons: <%= @need.cons %>.
+</div>
+<script>
+  document.getElementById('tts-btn').addEventListener('click', () => {
+    const text = document.getElementById('need-text').textContent;
+    const utterance = new SpeechSynthesisUtterance(text);
+    window.speechSynthesis.speak(utterance);
+  });
+</script>
+
+<a href="/need/<%= @need.id %>/edit" class="btn">Edit</a>
+<form action="/need/<%= @need.id %>/delete" method="post" style="display:inline">
+  <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+</form>
+<a href="/need" class="btn">Back to list</a>
