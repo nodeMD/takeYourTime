@@ -1,0 +1,15 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: takeyourtime_development
+  pool: 5
+  username: <%= ENV['DB_USERNAME'] || ENV['USER'] %>
+  # password removed for peer authentication
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: takeyourtime_test
+  pool: 5
+  username: <%= ENV['DB_USERNAME'] || ENV['USER'] %>
+  # password removed for peer authentication

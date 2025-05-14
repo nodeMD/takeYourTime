@@ -1,0 +1,5 @@
+require "logger"
+require "active_support/logger_thread_safe_level"
+ENV["RACK_ENV"] ||= "development"
+require "./app"
+require "sinatra/activerecord/rake"
