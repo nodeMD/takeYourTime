@@ -1,9 +1,9 @@
-require_relative '../models/emotion'
+require_relative "../models/emotion"
 
 class EmotionsController < Sinatra::Base
   # Explicitly set views and layout
-  set :views, File.expand_path('../../views', __FILE__)
-  set :public_folder, File.expand_path('../../public', __FILE__)
+  set :views, File.expand_path("../../views", __FILE__)
+  set :public_folder, File.expand_path("../../public", __FILE__)
   set :layout, File.expand_path("../../views/layout.erb", __FILE__)
   register Sinatra::ActiveRecordExtension
   enable :sessions
@@ -15,12 +15,12 @@ class EmotionsController < Sinatra::Base
   end
 
   # Step 1: Main emotion selection
-  get '/emotion/new' do
+  get "/emotion/new" do
     erb :"emotions/emotions_new", layout: :layout
   end
 
   # Step 2: Strength and sub-emotion selection + confirmation
-  post '/emotion/confirm' do
+  post "/emotion/confirm" do
     @main_emotion = params[:main_emotion]
     @strength = params[:strength]
     @emotion = params[:emotion]
@@ -28,18 +28,18 @@ class EmotionsController < Sinatra::Base
   end
 
   # Step 3: Save to DB and redirect to index
-  post '/emotion' do
+  post "/emotion" do
     unless current_user
-      redirect '/login'
+      redirect "/login"
     end
     Emotion.create!(user_id: current_user.id, main_emotion: params[:main_emotion], strength: params[:strength], emotion: params[:emotion])
-    redirect '/emotion'
+    redirect "/emotion"
   end
 
   # List all user's emotions with pagination
-  get '/emotion' do
+  get "/emotion" do
     unless current_user
-      redirect '/login'
+      redirect "/login"
     end
     per_page = 30
     @page = (params[:page] || 1).to_i
@@ -47,13 +47,13 @@ class EmotionsController < Sinatra::Base
     @total_pages = (total_emotions / per_page.to_f).ceil
     # Redirect to first page if out of bounds
     if @page < 1 || (@total_pages > 0 && @page > @total_pages)
-      redirect '/emotion?page=1'
+      redirect "/emotion?page=1"
     end
     offset = (@page - 1) * per_page
     @emotions = Emotion.where(user_id: current_user.id)
-                      .order(created_at: :desc)
-                      .limit(per_page)
-                      .offset(offset)
+      .order(created_at: :desc)
+      .limit(per_page)
+      .offset(offset)
     erb :"emotions/emotions_index", layout: :layout
   end
 end

@@ -66,13 +66,13 @@ get "/logout" do
 end
 
 # Prevent caching for protected routes
-before %r{^/(app|need|want|emotion)} do
+before %r{/(app|need|want|emotion)} do
   if !current_user
-    redirect '/login'
+    redirect "/login"
   end
-  headers 'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
-          'Pragma' => 'no-cache',
-          'Expires' => 'Fri, 01 Jan 1990 00:00:00 GMT'
+  headers "Cache-Control" => "no-store, no-cache, must-revalidate, max-age=0",
+    "Pragma" => "no-cache",
+    "Expires" => "Fri, 01 Jan 1990 00:00:00 GMT"
 end
 
 get "/app" do
@@ -81,23 +81,23 @@ get "/app" do
 end
 
 # --- Podcast routes ---
-require 'pathname'
-require 'kramdown'
+require "pathname"
+require "kramdown"
 
 get "/podcast" do
   # Gather all episodes
-  podcast_dir = File.join(settings.public_folder, 'podcasts')
+  podcast_dir = File.join(settings.public_folder, "podcasts")
   episodes = Dir.entries(podcast_dir).select { |entry| entry =~ /^episode\d+$/ }
   episodes = episodes.map do |ep_dir|
     ep_path = File.join(podcast_dir, ep_dir)
-    mp3 = Dir.entries(ep_path).find { |f| f.end_with?('.mp3') }
+    mp3 = Dir.entries(ep_path).find { |f| f.end_with?(".mp3") }
     next unless mp3
     {
-      number: ep_dir.gsub('episode','').to_i,
+      number: ep_dir.gsub("episode", "").to_i,
       title: mp3,
       dir: ep_dir,
       mp3: mp3,
-      text_path: File.join(ep_path, 'text.md')
+      text_path: File.join(ep_path, "text.md")
     }
   end.compact
   # Sort from newest to oldest
@@ -118,9 +118,9 @@ get "/podcast" do
   page = (params[:page] || 1).to_i
   total_pages = (episodes.size / per_page.to_f).ceil
   page = 1 if page < 1 || (total_pages > 0 && page > total_pages)
-  episodes_paginated = episodes.slice((page-1)*per_page, per_page) || []
+  episodes_paginated = episodes.slice((page - 1) * per_page, per_page) || []
 
-  erb :'podcast/podcast_index', locals: {
+  erb :"podcast/podcast_index", locals: {
     episodes: episodes_paginated,
     page: page,
     total_pages: total_pages,
@@ -129,7 +129,7 @@ get "/podcast" do
 end
 
 get "/podcast/:episode_title" do
-  podcast_dir = File.join(settings.public_folder, 'podcasts')
+  podcast_dir = File.join(settings.public_folder, "podcasts")
   # Find episode by mp3 file name
   episode = nil
   Dir.entries(podcast_dir).select { |entry| entry =~ /^episode\d+$/ }.each do |ep_dir|
@@ -140,13 +140,12 @@ get "/podcast/:episode_title" do
         dir: ep_dir,
         mp3: mp3,
         mp3_path: "/podcasts/#{ep_dir}/#{mp3}",
-        text_path: File.join(ep_path, 'text.md')
+        text_path: File.join(ep_path, "text.md")
       }
       break
     end
   end
   halt 404, "Episode not found" unless episode
   text_html = File.exist?(episode[:text_path]) ? Kramdown::Document.new(File.read(episode[:text_path])).to_html : "<em>No description available.</em>"
-  erb :'podcast/podcast_show', locals: { episode: episode, text_html: text_html }, layout: :layout
+  erb :"podcast/podcast_show", locals: {episode: episode, text_html: text_html}, layout: :layout
 end
-

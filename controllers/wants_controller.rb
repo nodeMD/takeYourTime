@@ -21,7 +21,7 @@ class WantsController < Sinatra::Base
     total = current_user.wants.count
     @total_pages = (total / per_page.to_f).ceil
     if @page < 1 || (@total_pages > 0 && @page > @total_pages)
-      redirect '/want?page=1'
+      redirect "/want?page=1"
     end
     @wants = current_user.wants.order(:id).limit(per_page).offset((@page - 1) * per_page)
     @title = "Your Wants"
