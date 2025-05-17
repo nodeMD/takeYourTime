@@ -1,0 +1,36 @@
+<h2>Podcast Episodes</h2>
+<form method="get" action="/podcast" class="search-bar" style="margin-bottom: 20px;">
+  <input type="text" name="q" value="<%= query %>" placeholder="Search episodes or text..." class="search-input" />
+  <button type="submit" class="btn">Search</button>
+</form>
+
+<table class="emotions-table">
+  <thead>
+    <tr>
+      <th>Episode Title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% episodes.each do |ep| %>
+      <tr>
+        <td><a href="/podcast/<%= ep[:title] %>"><%= ep[:title] %></a></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="pagination" style="margin: 18px 0 10px 0; text-align: center;">
+  <% if page > 1 %>
+    <a href="/podcast?page=<%= page - 1 %><%= query ? "&q=#{URI.encode_www_form_component(query)}" : '' %>" class="btn">Previous</a>
+  <% else %>
+    <span class="btn" style="opacity:0.5;cursor:default;">Previous</span>
+  <% end %>
+  Page <%= page %> of <%= total_pages %>
+  <% if page < total_pages %>
+    <a href="/podcast?page=<%= page + 1 %><%= query ? "&q=#{URI.encode_www_form_component(query)}" : '' %>" class="btn">Next</a>
+  <% else %>
+    <span class="btn" style="opacity:0.5;cursor:default;">Next</span>
+  <% end %>
+</div>
+
+<a href="/app" class="btn">Back to Main Page</a>

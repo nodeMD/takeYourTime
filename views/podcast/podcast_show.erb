@@ -1,0 +1,21 @@
+<h2>Podcast: <%= episode[:mp3] %></h2>
+<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+  <button class="btn" onclick="seekAudio(-10)">&laquo; 10s</button>
+  <audio id="podcast-audio" controls style="flex:1;">
+    <source src="<%= episode[:mp3_path] %>" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  <button class="btn" onclick="seekAudio(10)">10s &raquo;</button>
+</div>
+<script>
+function seekAudio(seconds) {
+  var audio = document.getElementById('podcast-audio');
+  if (audio) {
+    audio.currentTime = Math.max(0, Math.min(audio.duration || 0, audio.currentTime + seconds));
+  }
+}
+</script>
+<div class="podcast-text" style="margin-top: 30px;">
+  <%= text_html %>
+</div>
+<a href="/podcast" class="btn">Back to Podcast List</a>
