@@ -36,12 +36,20 @@ class EmotionsController < Sinatra::Base
     redirect '/emotion'
   end
 
-  # List all user's emotions
+  # List all user's emotions with pagination
   get '/emotion' do
     unless current_user
       redirect '/login'
     end
-    @emotions = Emotion.where(user_id: current_user.id).order(created_at: :desc)
+    per_page = 30
+    @page = (params[:page] || 1).to_i
+    total_emotions = Emotion.where(user_id: current_user.id).count
+    @total_pages = (total_emotions / per_page.to_f).ceil
+    offset = (@page - 1) * per_page
+    @emotions = Emotion.where(user_id: current_user.id)
+                      .order(created_at: :desc)
+                      .limit(per_page)
+                      .offset(offset)
     erb :"emotions/emotions_index", layout: :layout
   end
 end

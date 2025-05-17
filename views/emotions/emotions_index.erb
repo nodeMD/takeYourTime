@@ -32,6 +32,19 @@
       <% end %>
     </tbody>
   </table>
+  <div class="pagination" style="margin: 18px 0 10px 0; text-align: center;">
+    <% if @page > 1 %>
+      <a href="/emotion?page=<%= @page - 1 %>" class="btn">Previous</a>
+    <% else %>
+      <span class="btn" style="opacity:0.5;cursor:default;">Previous</span>
+    <% end %>
+    Page <%= @page %> of <%= @total_pages %>
+    <% if @page < @total_pages %>
+      <a href="/emotion?page=<%= @page + 1 %>" class="btn">Next</a>
+    <% else %>
+      <span class="btn" style="opacity:0.5;cursor:default;">Next</span>
+    <% end %>
+  </div>
 <% end %>
 <a href="/emotion/new" class="btn">Add New</a>
 <a href="/app" class="btn">Back to Main Page</a>
