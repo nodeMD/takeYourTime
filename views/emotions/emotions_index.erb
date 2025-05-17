@@ -1,0 +1,23 @@
+<h2>Your Emotions</h2>
+<% if @emotions.empty? %>
+  <p>No emotions yet. Add one!</p>
+<% else %>
+  <table>
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Emotion</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @emotions.each do |emotion| %>
+        <tr>
+          <td><%= emotion.created_at.strftime('%Y-%m-%d %H:%M') %></td>
+          <td><%= emotion.emotion %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+<a href="/emotion/new" class="btn">Add New</a>
+<a href="/app" class="btn">Back to Main Page</a>

@@ -1,0 +1,211 @@
+<style>
+  /* Use global theme variables for backgrounds and text */
+  .emotion-step, .emotion-confirm-box {
+    background: var(--bg);
+    color: var(--text);
+  }
+  .emotion-main-btn {
+    border: none;
+    border-radius: 8px;
+    padding: 16px 24px;
+    margin: 8px;
+    font-size: 1.15em;
+    font-weight: 600;
+    cursor: pointer;
+    color: #fff;
+    transition: transform 0.1s;
+  }
+  .emotion-main-btn:hover { transform: scale(1.08); }
+  .emotion-Happiness { background: #FFD600; color: #333; }
+  .emotion-Sadness { background: #2196F3; }
+  .emotion-Fear { background: #4CAF50; }
+  .emotion-Uncertainty { background: #FF9800; }
+  .emotion-Anger { background: #F44336; }
+  .emotion-Potency { background: #8E24AA; }
+  .emotion-Inadequacy { background: #795548; }
+  .emotion-step { margin: 24px 0; }
+  .emotion-strength-btn {
+    margin: 8px;
+    padding: 12px 20px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 500;
+  }
+  .emotion-strength-strong { background: #222; color: #FFD600; }
+  .emotion-strength-moderate { background: #444; color: #FFD600; }
+  .emotion-strength-weak { background: #bbb; color: #222; }
+  .emotion-choice-btn {
+    margin: 6px 8px;
+    padding: 8px 16px;
+    border-radius: 5px;
+    border: 1px solid var(--border, #ccc);
+    background: var(--input-bg, #fafafa);
+    color: var(--text);
+    font-size: 1em;
+    transition: background 0.2s, color 0.2s;
+  }
+  .emotion-choice-btn.selected { border: 2px solid #2196F3; background: #E3F2FD; }
+
+  @media (prefers-color-scheme: dark) {
+    .emotion-choice-btn {
+      background: #333 !important;
+      color: #fff !important;
+      border-color: #555;
+    }
+    .emotion-choice-btn.selected {
+      background: #1976D2 !important;
+      color: #fff !important;
+      border-color: #2196F3;
+    }
+  }
+  .emotion-confirm-modal {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.4);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000;
+  }
+  .emotion-confirm-box {
+    background: var(--bg);
+    color: var(--text);
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+    text-align: center;
+  }
+  .emotion-confirm-box button {
+    margin: 0 20px;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .emotion-confirm-yes { background: #4CAF50; color: #fff; }
+  .emotion-confirm-no { background: #F44336; color: #fff; }
+  a.btn {
+    display: inline-block;
+    margin: 16px 8px 0 0;
+    padding: 10px 24px;
+    border-radius: 6px;
+    background: #2196F3;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.2s;
+  }
+  a.btn:hover { background: #1565C0; }
+</style>
+
+<script>
+  // Data structure for emotions grid
+  const EMOTIONS_GRID = {
+    Happiness: {
+      strong: ["Excited", "Thrilled", "Delighted", "Overjoyed", "Ecstatic", "Elated", "Jubilant"],
+      moderate: ["'Up'", "Good", "Happy", "Optimistic", "Cheerful", "Enthusiastic", "Joyful", "'Turned on'"],
+      weak: ["Pleased", "Glad", "Content", "Relaxed", "Satisfied", "Calm"]
+    },
+    Sadness: {
+      strong: ["Despairing", "Hopeless", "Depressed", "Crushed", "Miserable", "Abandoned", "Defeated", "Desolate"],
+      moderate: ["Dejected", "Dismayed", "Disillusioned", "Lonely", "Bad", "Unhappy", "Pessimistic", "Sad", "Hurt", "Lost"],
+      weak: ["'Down'", "Discouraged", "Disappointed", "'Blue'", "Alone", "Left out"]
+    },
+    Fear: {
+      strong: ["Panicked", "Terrified", "Afraid", "Crushed", "Frightened", "Scared", "Overwhelmed"],
+      moderate: ["Worried", "Shaky", "Tense", "Anxious", "Threatened", "Agitated"],
+      weak: ["Jittery", "Jumpy", "Nervous", "Uncomfortable", "Uptight", "Uneasy", "Defensive", "Apprehensive", "Hesitant", "Edgy"]
+    },
+    Uncertainty: {
+      strong: ["Bewildered", "Disoriented", "Mistrustful", "Confused"],
+      moderate: ["Doubtful", "Mixed up", "Insecure", "Skeptical", "Puzzled"],
+      weak: ["Unsure", "Surprised", "Uncertain", "Undecided", "Bothered"]
+    },
+    Anger: {
+      strong: ["Outraged", "Hostile", "Furious", "Angry", "Harsh", "Hateful", "Mean", "Vindictive"],
+      moderate: ["Aggravated", "Irritated", "Offended", "Mad", "Frustrated", "Resentful", "'Sore'", "Upset", "Impatient", "Obstinate"],
+      weak: ["Perturbed", "Annoyed", "Grouchy", "Hassled", "Bothered", "Disagreeable"]
+    },
+    Potency: {
+      strong: ["Powerful", "Authoritative", "Forceful", "Potent"],
+      moderate: ["Tough", "Important", "Confident", "Fearless", "Energetic", "Brave", "Courageous", "Daring", "Assured", "Adequate", "Self-confident", "Skillful"],
+      weak: ["Determined", "Firm", "Able", "Strong"]
+    },
+    Inadequacy: {
+      strong: ["Ashamed", "Powerless", "Vulnerable", "Cowardly", "Exhausted", "Impotent"],
+      moderate: ["Embarrassed", "Useless", "Demoralized", "Helpless", "Worn out", "Inept", "Incapable", "Incompetent", "Inadequate", "Shaken"],
+      weak: ["Frail", "Meek", "Unable", "Weak"]
+    }
+  };
+
+  let selectedMain = null, selectedStrength = null, selectedEmotion = null;
+
+  function renderStep1() {
+    document.getElementById('emotion-step').innerHTML = `
+      <h2>Select your main emotion</h2>
+      <div>
+        ${Object.keys(EMOTIONS_GRID).map(main => `<button class='emotion-main-btn emotion-${main}' onclick='selectMain("${main}")'>${main}</button>`).join('')}
+      </div>
+      <a href="/emotion" class="btn" style='background:#777777;padding:8px 18px;border-radius:6px;'>Back to list</a>
+    `;
+  }
+
+  function renderStep2(main) {
+    document.getElementById('emotion-step').innerHTML = `
+      <h2>How strong is your ${main.toLowerCase()}?</h2>
+      <div>
+        <button class='emotion-strength-btn emotion-strength-strong' onclick='selectStrength("strong")'>Strong</button>
+        <button class='emotion-strength-btn emotion-strength-moderate' onclick='selectStrength("moderate")'>Moderate</button>
+        <button class='emotion-strength-btn emotion-strength-weak' onclick='selectStrength("weak")'>Weak</button>
+      </div>
+      <div style='margin-top:30px'><button onclick='renderStep1()' style='background:#eee;padding:8px 18px;border-radius:6px;'>Back</button></div>
+    `;
+  }
+
+  function renderStep3(main, strength) {
+    const emotions = EMOTIONS_GRID[main][strength];
+    document.getElementById('emotion-step').innerHTML = `
+      <h2>Which emotion best describes your feeling?</h2>
+      <div>
+        ${emotions.map(e => `<button class='emotion-choice-btn' onclick='selectEmotion("${e}")'>${e}</button>`).join('')}
+      </div>
+      <div style='margin-top:30px'><button onclick='renderStep2("${main}")' style='background:#eee;padding:8px 18px;border-radius:6px;'>Back</button></div>
+    `;
+  }
+
+  function showConfirm(main, strength, emotion) {
+    document.getElementById('emotion-confirm-modal').innerHTML = `
+      <div class='emotion-confirm-modal'>
+        <div class='emotion-confirm-box'>
+          <h3>Confirm your feeling</h3>
+          <p>Are you feeling <b>${emotion}</b> (${strength}, ${main})?</p>
+          <form method='POST' action='/emotion'>
+            <input type='hidden' name='main_emotion' value='${main}' />
+            <input type='hidden' name='strength' value='${strength}' />
+            <input type='hidden' name='emotion' value='${emotion}' />
+            <button type='submit' class='emotion-confirm-yes'>Yes</button>
+            <button type='button' class='emotion-confirm-no' onclick='closeConfirm()'>No</button>
+          </form>
+        </div>
+      </div>
+    `;
+  }
+  function closeConfirm() { document.getElementById('emotion-confirm-modal').innerHTML = ''; }
+
+  function selectMain(main) {
+    selectedMain = main; selectedStrength = null; selectedEmotion = null;
+    renderStep2(main);
+  }
+  function selectStrength(strength) {
+    selectedStrength = strength; selectedEmotion = null;
+    renderStep3(selectedMain, strength);
+  }
+  function selectEmotion(emotion) {
+    selectedEmotion = emotion;
+    showConfirm(selectedMain, selectedStrength, selectedEmotion);
+  }
+
+  window.onload = function() { renderStep1(); };
+</script>
+
+<div id="emotion-step" class="emotion-step"></div>
+<div id="emotion-confirm-modal"></div>
