@@ -66,7 +66,7 @@ get "/logout" do
 end
 
 get "/app" do
-  redirect "/" unless current_user
+  redirect "/login" unless current_user
   @title = "Welcome #{current_user.nickname}"
   erb :app
 end
