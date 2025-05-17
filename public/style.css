@@ -81,6 +81,41 @@ main {
   background: var(--btn-bg-hover);
 }
 
+/* Emotions Table Styling */
+.emotions-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  margin: 28px 0 16px 0;
+  background: transparent;
+}
+.emotions-table th, .emotions-table td {
+  padding: 12px 18px;
+  font-size: 1.08em;
+  text-align: left;
+}
+.emotions-table th {
+  background: var(--header-bg);
+  color: var(--text);
+  border-bottom: 2px solid var(--border);
+  font-weight: 700;
+}
+.emotions-table tr {
+  transition: box-shadow 0.15s, background 0.2s;
+}
+.emotions-table tbody tr:hover td {
+  box-shadow: 0 2px 12px #0002;
+  background: #f5f5f5;
+}
+[data-theme="dark"] .emotions-table tbody tr:hover td {
+  background: #232323;
+}
+.emotions-table td {
+  border-radius: 8px;
+  vertical-align: middle;
+}
+
+
 /* Form layout */
 .form-group {
   margin-bottom: 1em;

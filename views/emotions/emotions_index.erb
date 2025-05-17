@@ -1,8 +1,18 @@
 <h2>Your Emotions</h2>
+<%# Define emotion color mapping in view scope %>
+<% emotion_colors = {
+  'Happiness' => '#FFD600',
+  'Sadness' => '#2196F3',
+  'Fear' => '#4CAF50',
+  'Uncertainty' => '#FF9800',
+  'Anger' => '#F44336',
+  'Potency' => '#8E24AA',
+  'Inadequacy' => '#795548'
+} %>
 <% if @emotions.empty? %>
   <p>No emotions yet. Add one!</p>
 <% else %>
-  <table>
+  <table class="emotions-table">
     <thead>
       <tr>
         <th>Timestamp</th>
@@ -11,9 +21,13 @@
     </thead>
     <tbody>
       <% @emotions.each do |emotion| %>
+        <% color = emotion_colors[emotion.main_emotion] || '#eee' %>
+        <% text_color = ['#FFD600', '#FF9800', '#FFF9C4'].include?(color) ? '#222' : '#fff' %>
         <tr>
           <td><%= emotion.created_at.strftime('%Y-%m-%d %H:%M') %></td>
-          <td><%= emotion.emotion %></td>
+          <td style="background:<%= color %>;color:<%= text_color %>;font-weight:600;border-radius:8px;text-align:center;box-shadow:0 1px 4px #0001;">
+            <%= emotion.emotion %>
+          </td>
         </tr>
       <% end %>
     </tbody>
