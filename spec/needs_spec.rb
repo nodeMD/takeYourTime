@@ -9,6 +9,7 @@ RSpec.describe "Needs Management", type: :request do
 
   before(:each) do
     Need.delete_all
+    Emotion.delete_all
     User.delete_all
     @user = User.create!(nickname: "foobar", password: "password", password_confirmation: "password")
     post "/login", nickname: "foobar", password: "password"

@@ -9,6 +9,7 @@ RSpec.describe "User Authentication" do
 
   before(:each) do
     Need.delete_all
+    Emotion.delete_all
     User.delete_all
   end
 
