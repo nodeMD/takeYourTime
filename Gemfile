@@ -11,6 +11,7 @@ gem "puma"
 gem "rackup", "~> 2.2"
 gem "standard", require: false
 gem "dotenv", require: "dotenv/load"
+gem "kramdown"
 
 group :test do
   gem "rspec", "~> 3.0"

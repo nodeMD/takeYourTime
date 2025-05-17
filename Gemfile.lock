@@ -21,6 +21,8 @@ GEM
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     json (2.11.3)
+    kramdown (2.5.1)
+      rexml (>= 3.3.9)
     language_server-protocol (3.17.0.4)
     lint_roller (1.1.0)
     logger (1.7.0)
@@ -120,6 +122,7 @@ DEPENDENCIES
   activerecord (~> 6.0)
   bcrypt
   dotenv
+  kramdown
   pg
   puma
   rack
