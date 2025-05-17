@@ -24,6 +24,9 @@ get "/" do
 end
 
 get "/signup" do
+  if session[:user_id]
+    redirect "/app"
+  end
   @user = User.new
   erb :signup
 end
@@ -39,6 +42,9 @@ post "/signup" do
 end
 
 get "/login" do
+  if session[:user_id]
+    redirect "/app"
+  end
   @error = nil
   erb :login
 end
