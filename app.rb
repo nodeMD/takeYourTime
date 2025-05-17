@@ -36,6 +36,13 @@ get "/" do
   erb :index
 end
 
+# 404 error handler
+not_found do
+  @title = "Page Not Found"
+  status 404
+  erb :"404", layout: :layout
+end
+
 get "/signup" do
   if session[:user_id]
     redirect "/app"
