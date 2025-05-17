@@ -15,39 +15,42 @@ class WantsController < Sinatra::Base
 
   # Wants listing with pagination
   get "/want" do
-    redirect "/" unless current_user
-    page = (params[:page] || 1).to_i
+    redirect "/login" unless current_user
+    per_page = 20
+    @page = (params[:page] || 1).to_i
     total = current_user.wants.count
-    @total_pages = (total / 20.0).ceil
-    @page = page
-    @wants = current_user.wants.order(:id).limit(20).offset((page - 1) * 20)
+    @total_pages = (total / per_page.to_f).ceil
+    if @page < 1 || (@total_pages > 0 && @page > @total_pages)
+      redirect '/want?page=1'
+    end
+    @wants = current_user.wants.order(:id).limit(per_page).offset((@page - 1) * per_page)
     @title = "Your Wants"
     erb :"wants/wants_index", layout: :layout
   end
 
   get "/want/new" do
-    redirect "/" unless current_user
+    redirect "/login" unless current_user
     @title = "New Want"
     erb :"wants/wants_new", layout: :layout
   end
 
   # Edit want form
   get "/want/:id/edit" do
-    redirect "/" unless current_user
+    redirect "/login" unless current_user
     @want = current_user.wants.find(params[:id])
     @title = "Edit Want ##{@want.id}"
     erb :"wants/wants_edit", layout: :layout
   end
 
   get "/want/:id" do
-    redirect "/" unless current_user
+    redirect "/login" unless current_user
     @want = current_user.wants.find(params[:id])
     @title = "Want ##{@want.id}"
     erb :"wants/wants_show", layout: :layout
   end
 
   post "/want" do
-    redirect "/" unless current_user
+    redirect "/login" unless current_user
     want = current_user.wants.new(what: params[:what], how: params[:how])
     if want.save
       redirect "/want"
@@ -60,7 +63,7 @@ class WantsController < Sinatra::Base
 
   # Update want
   post "/want/:id" do
-    redirect "/" unless current_user
+    redirect "/login" unless current_user
     @want = current_user.wants.find(params[:id])
     if @want.update(what: params[:what], how: params[:how])
       redirect "/want/#{@want.id}"
@@ -73,7 +76,7 @@ class WantsController < Sinatra::Base
 
   # Delete a want
   post "/want/:id/delete" do
-    redirect "/" unless current_user
+    redirect "/login" unless current_user
     want = current_user.wants.find(params[:id])
     want.destroy
     redirect "/want"

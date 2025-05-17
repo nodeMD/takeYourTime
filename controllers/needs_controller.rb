@@ -15,39 +15,42 @@ class NeedsController < Sinatra::Base
 
   # Needs listing with pagination
   get "/need" do
-    redirect "/" unless current_user
-    page = (params[:page] || 1).to_i
+    redirect "/login" unless current_user
+    per_page = 20
+    @page = (params[:page] || 1).to_i
     total = current_user.needs.count
-    @total_pages = (total / 20.0).ceil
-    @page = page
-    @needs = current_user.needs.order(:id).limit(20).offset((page - 1) * 20)
+    @total_pages = (total / per_page.to_f).ceil
+    if @page < 1 || (@total_pages > 0 && @page > @total_pages)
+      redirect '/need?page=1'
+    end
+    @needs = current_user.needs.order(:id).limit(per_page).offset((@page - 1) * per_page)
     @title = "Your Needs"
     erb :"needs/needs_index", layout: :layout
   end
 
   get "/need/new" do
-    redirect "/" unless current_user
+    redirect "/login" unless current_user
     @title = "New Need"
     erb :"needs/needs_new", layout: :layout
   end
 
   # Edit need form
   get "/need/:id/edit" do
-    redirect "/" unless current_user
+    redirect "/login" unless current_user
     @need = current_user.needs.find(params[:id])
     @title = "Edit Need ##{@need.id}"
     erb :"needs/needs_edit", layout: :layout
   end
 
   get "/need/:id" do
-    redirect "/" unless current_user
+    redirect "/login" unless current_user
     @need = current_user.needs.find(params[:id])
     @title = "Need ##{@need.id}"
     erb :"needs/needs_show", layout: :layout
   end
 
   post "/need" do
-    redirect "/" unless current_user
+    redirect "/login" unless current_user
     need = current_user.needs.new(what: params[:what], benefits: params[:benefits], cons: params[:cons])
     if need.save
       redirect "/need"
@@ -60,7 +63,7 @@ class NeedsController < Sinatra::Base
 
   # Update need
   post "/need/:id" do
-    redirect "/" unless current_user
+    redirect "/login" unless current_user
     @need = current_user.needs.find(params[:id])
     if @need.update(what: params[:what], benefits: params[:benefits], cons: params[:cons])
       redirect "/need/#{@need.id}"
@@ -73,7 +76,7 @@ class NeedsController < Sinatra::Base
 
   # Delete a need
   post "/need/:id/delete" do
-    redirect "/" unless current_user
+    redirect "/login" unless current_user
     need = current_user.needs.find(params[:id])
     need.destroy
     redirect "/need"

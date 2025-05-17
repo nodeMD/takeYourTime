@@ -2,21 +2,35 @@
 <% if @wants.empty? %>
   <p>You do not want anything yet. Create something!</p>
 <% else %>
-  <ul>
-    <% @wants.each do |wants| %>
-      <li>
-        <strong>ID:</strong> <a href="/want/<%= wants.id %>"><%= wants.id %></a><br>
-        <strong>What:</strong> <%= wants.what %>
-      </li>
-    <% end %>
-  </ul>
-  <div class="pagination">
+  <table class="emotions-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>What</th>
+        <th>How</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @wants.each do |wants| %>
+        <tr>
+          <td><a href="/want/<%= wants.id %>"><%= wants.id %></a></td>
+          <td><%= wants.what %></td>
+          <td><%= wants.how.presence || '-' %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="pagination" style="margin: 18px 0 10px 0; text-align: center;">
     <% if @page > 1 %>
-      <a href="/want?page=<%= @page - 1 %>">Previous</a>
+      <a href="/want?page=<%= @page - 1 %>" class="btn">Previous</a>
+    <% else %>
+      <span class="btn" style="opacity:0.5;cursor:default;">Previous</span>
     <% end %>
     Page <%= @page %> of <%= @total_pages %>
     <% if @page < @total_pages %>
-      <a href="/want?page=<%= @page + 1 %>">Next</a>
+      <a href="/want?page=<%= @page + 1 %>" class="btn">Next</a>
+    <% else %>
+      <span class="btn" style="opacity:0.5;cursor:default;">Next</span>
     <% end %>
   </div>
 <% end %>

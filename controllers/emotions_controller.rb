@@ -45,6 +45,10 @@ class EmotionsController < Sinatra::Base
     @page = (params[:page] || 1).to_i
     total_emotions = Emotion.where(user_id: current_user.id).count
     @total_pages = (total_emotions / per_page.to_f).ceil
+    # Redirect to first page if out of bounds
+    if @page < 1 || (@total_pages > 0 && @page > @total_pages)
+      redirect '/emotion?page=1'
+    end
     offset = (@page - 1) * per_page
     @emotions = Emotion.where(user_id: current_user.id)
                       .order(created_at: :desc)
