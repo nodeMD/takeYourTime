@@ -1,0 +1,67 @@
+name: Run Unit Tests
+
+on:
+  push:
+    branches: [ "main", "master", "develop" ]
+  pull_request:
+    branches: [ "main", "master", "develop" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3.8
+          bundler-cache: true
+
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Configure database
+        run: |
+          cp config/database.yml.example config/database.yml
+          sed -i 's/username: postgres/username: postgres/' config/database.yml
+          sed -i 's/password: postgres/password: postgres/' config/database.yml
+          sed -i 's/localhost:5432/localhost:5432/' config/database.yml
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Run tests
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
+        run: |
+          bundle exec rspec
+
+      - name: Upload test results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: |
+            coverage/
+            spec/
+            tmp/
+            .rspec
+            Gemfile.lock
+            database.yml
