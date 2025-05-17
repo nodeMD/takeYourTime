@@ -44,9 +44,14 @@ class NeedsController < Sinatra::Base
 
   get "/need/:id" do
     redirect "/login" unless current_user
-    @need = current_user.needs.find(params[:id])
-    @title = "Need ##{@need.id}"
-    erb :"needs/needs_show", layout: :layout
+    @need = current_user.needs.find_by(id: params[:id])
+    if @need
+      @title = "Need ##{@need.id}"
+      erb :"needs/needs_show", layout: :layout
+    else
+      @title = "Need not found"
+      erb :"needs/needs_not_found", layout: :layout
+    end
   end
 
   post "/need" do
@@ -77,8 +82,12 @@ class NeedsController < Sinatra::Base
   # Delete a need
   post "/need/:id/delete" do
     redirect "/login" unless current_user
-    need = current_user.needs.find(params[:id])
-    need.destroy
-    redirect "/need"
+    @need = current_user.needs.find_by(id: params[:id])
+    if @need
+      @need.destroy
+      redirect "/need"
+    else
+      redirect "/need"
+    end
   end
 end

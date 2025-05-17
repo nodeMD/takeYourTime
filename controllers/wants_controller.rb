@@ -44,9 +44,14 @@ class WantsController < Sinatra::Base
 
   get "/want/:id" do
     redirect "/login" unless current_user
-    @want = current_user.wants.find(params[:id])
-    @title = "Want ##{@want.id}"
-    erb :"wants/wants_show", layout: :layout
+    @want = current_user.wants.find_by(id: params[:id])
+    if @want
+      @title = "Want ##{@want.id}"
+      erb :"wants/wants_show", layout: :layout
+    else
+      @title = "Want not found"
+      erb :"wants/wants_not_found", layout: :layout
+    end
   end
 
   post "/want" do
@@ -77,8 +82,12 @@ class WantsController < Sinatra::Base
   # Delete a want
   post "/want/:id/delete" do
     redirect "/login" unless current_user
-    want = current_user.wants.find(params[:id])
-    want.destroy
-    redirect "/want"
+    @want = current_user.wants.find_by(id: params[:id])
+    if @want
+      @want.destroy
+      redirect "/want"
+    else
+      redirect "/want"
+    end
   end
 end
