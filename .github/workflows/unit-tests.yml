@@ -46,10 +46,24 @@ jobs:
 
       - name: Configure database
         run: |
-          cp config/database.yml.example config/database.yml
-          sed -i 's/username: postgres/username: postgres/' config/database.yml
-          sed -i 's/password: postgres/password: postgres/' config/database.yml
-          sed -i 's/localhost:5432/localhost:5432/' config/database.yml
+          mkdir -p config
+          cat > config/database.yml << 'EOL'
+          development:
+            adapter: postgresql
+            database: test
+            username: postgres
+            password: postgres
+            host: localhost
+            port: 5432
+          test:
+            adapter: postgresql
+            database: test
+            username: postgres
+            password: postgres
+            host: localhost
+            port: 5432
+          EOL
+          chmod 644 config/database.yml
 
       - name: Install dependencies
         run: |
