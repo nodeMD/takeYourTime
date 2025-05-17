@@ -5,8 +5,10 @@ require "./models/need"
 require "./models/want"
 require_relative "controllers/needs_controller"
 require_relative "controllers/wants_controller"
+require_relative "controllers/emotions_controller"
 use NeedsController
 use WantsController
+use EmotionsController
 
 set :database_file, "config/database.yml"
 enable :sessions
