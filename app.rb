@@ -65,8 +65,17 @@ get "/logout" do
   redirect "/"
 end
 
+# Prevent caching for protected routes
+before %r{^/(app|need|want|emotion)} do
+  if !current_user
+    redirect '/login'
+  end
+  headers 'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
+          'Pragma' => 'no-cache',
+          'Expires' => 'Fri, 01 Jan 1990 00:00:00 GMT'
+end
+
 get "/app" do
-  redirect "/login" unless current_user
   @title = "Welcome #{current_user.nickname}"
   erb :app
 end
