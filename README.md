@@ -1,3 +1,5 @@
+![example workflow](https://github.com/nodeMD/takeYourTime/actions/workflows/unit-tests.yml/badge.svg)
+
 # TakeYourTime
 
 A Sinatra-based app for tracking emotions, needs, wants, and listening to podcast episodes. Features user authentication, pagination, and a modern UI with dark/light themes.
