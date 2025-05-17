@@ -53,16 +53,4 @@ jobs:
         run: |
           bundle exec rspec
 
-      - name: Upload test results
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v3.1.0
-        with:
-          name: test-results
-          path: |
-            coverage/
-            spec/
-            tmp/
-            .rspec
-            Gemfile.lock
-            database.yml
-          retention-days: 7
+
