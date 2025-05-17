@@ -1,5 +1,7 @@
 require "sinatra"
 require "sinatra/activerecord"
+require "dotenv/load"
+require "rack/session/cookie"
 require "./models/user"
 require "./models/need"
 require "./models/want"
@@ -9,6 +11,17 @@ require_relative "controllers/emotions_controller"
 use NeedsController
 use WantsController
 use EmotionsController
+
+# Configure session settings
+set :sessions, {
+  key: 'takeyourtime_session',
+  secret: ENV['SESSION_SECRET'] || SecureRandom.hex(64),
+  expire_after: 20 * 60, # 20 minutes
+  secure: ENV['RACK_ENV'] == 'production',
+  httponly: true,
+  path: '/',
+  same_site: :strict
+}
 
 set :database_file, "config/database.yml"
 enable :sessions
@@ -62,17 +75,23 @@ end
 
 get "/logout" do
   session.clear
-  redirect "/"
+  redirect "/login"
 end
 
-# Prevent caching for protected routes
-before %r{/(app|need|want|emotion)} do
+# Add before filter for all routes
+before do
+  headers "Cache-Control" => "no-store, no-cache, must-revalidate",
+          "Pragma" => "no-cache",
+          "Expires" => "0",
+          "X-Frame-Options" => "DENY",
+          "X-Content-Type-Options" => "nosniff"
+end
+
+# Add before filter for protected routes
+before %r{/app|need|want|emotion|podcast} do
   if !current_user
     redirect "/login"
   end
-  headers "Cache-Control" => "no-store, no-cache, must-revalidate, max-age=0",
-    "Pragma" => "no-cache",
-    "Expires" => "Fri, 01 Jan 1990 00:00:00 GMT"
 end
 
 get "/app" do

@@ -56,6 +56,45 @@ bundle exec standardrb --fix
   bundle install
   ```
 
+## Production Deployment
+
+1. **Environment Variables**
+   - Copy `.env.example` to `.env`
+   - Set all required environment variables
+   - Ensure `SESSION_SECRET` is a secure random value
+   - Set `RACK_ENV=production`
+
+2. **Database Configuration**
+   - Ensure PostgreSQL is installed and running
+   - Create the production database
+   - Set up proper database user with appropriate permissions
+   - Configure database connection in `.env`
+
+3. **Security Settings**
+   - Enable HTTPS (set `SSL_ENABLED=true`)
+   - Configure proper session settings
+   - Set up proper database connection pooling
+
+4. **Deployment Steps**
+   ```sh
+   # Install dependencies
+   bundle install --without development test
+   
+   # Create and migrate database
+   bundle exec rake db:create
+   bundle exec rake db:migrate
+   
+   # Start the application
+   bundle exec puma -C config/puma.rb
+   ```
+
+5. **Security Considerations**
+   - Never commit `.env` file to version control
+   - Use secure session secrets
+   - Enable HTTPS in production
+   - Regularly rotate session secrets
+   - Monitor database connection pooling
+
 ## Notes
 - Podcasts and their assets are in `public/podcasts/`.
 - For production deployment, review session/secret management and database configuration.
