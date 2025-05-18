@@ -3,6 +3,6 @@ class Emotion < ActiveRecord::Base
   
   validates :user, presence: true
   validates :main_emotion, presence: true
-  validates :strength, presence: true, inclusion: { in: ['weak', 'medium', 'strong'] }
+  validates :strength, presence: true, inclusion: { in: ['weak', 'moderate', 'strong'] }
   validates :emotion, presence: true
 end
