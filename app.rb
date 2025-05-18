@@ -14,12 +14,12 @@ use EmotionsController
 
 # Configure session settings
 set :sessions, {
-  key: 'takeyourtime_session',
-  secret: ENV['SESSION_SECRET'] || SecureRandom.hex(64),
+  key: "takeyourtime_session",
+  secret: ENV["SESSION_SECRET"] || SecureRandom.hex(64),
   expire_after: 20 * 60, # 20 minutes
-  secure: ENV['RACK_ENV'] == 'production',
+  secure: ENV["RACK_ENV"] == "production",
   httponly: true,
-  path: '/',
+  path: "/",
   same_site: :strict
 }
 
@@ -88,10 +88,10 @@ end
 # Add before filter for all routes
 before do
   headers "Cache-Control" => "no-store, no-cache, must-revalidate",
-          "Pragma" => "no-cache",
-          "Expires" => "0",
-          "X-Frame-Options" => "DENY",
-          "X-Content-Type-Options" => "nosniff"
+    "Pragma" => "no-cache",
+    "Expires" => "0",
+    "X-Frame-Options" => "DENY",
+    "X-Content-Type-Options" => "nosniff"
 end
 
 # Add before filter for protected routes

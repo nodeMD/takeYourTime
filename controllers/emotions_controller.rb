@@ -16,11 +16,17 @@ class EmotionsController < Sinatra::Base
 
   # Step 1: Main emotion selection
   get "/emotion/new" do
+    unless current_user
+      redirect "/login"
+    end
     erb :"emotions/emotions_new", layout: :layout
   end
 
   # Step 2: Strength and sub-emotion selection + confirmation
   post "/emotion/confirm" do
+    unless current_user
+      redirect "/login"
+    end
     @main_emotion = params[:main_emotion]
     @strength = params[:strength]
     @emotion = params[:emotion]

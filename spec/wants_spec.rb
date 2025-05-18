@@ -24,8 +24,8 @@ RSpec.describe "Wants Management", type: :request do
     end
 
     it "lists all wants for the current user" do
-      want1 = @user.wants.create!(what: "Want 1", how: "How 1")
-      want2 = @user.wants.create!(what: "Want 2", how: "How 2")
+      @user.wants.create!(what: "Want 1", how: "How 1")
+      @user.wants.create!(what: "Want 2", how: "How 2")
       get "/want"
       expect(last_response).to be_ok
       expect(last_response.body).to include "Want 1"

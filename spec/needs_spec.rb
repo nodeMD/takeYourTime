@@ -24,8 +24,8 @@ RSpec.describe "Needs Management", type: :request do
     end
 
     it "lists all needs for the current user" do
-      need1 = @user.needs.create!(what: "Need 1", benefits: "B1", cons: "C1")
-      need2 = @user.needs.create!(what: "Need 2", benefits: "B2", cons: "C2")
+      @user.needs.create!(what: "Need 1", benefits: "B1", cons: "C1")
+      @user.needs.create!(what: "Need 2", benefits: "B2", cons: "C2")
       get "/need"
       expect(last_response).to be_ok
       expect(last_response.body).to include "Need 1"

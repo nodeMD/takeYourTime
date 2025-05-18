@@ -13,7 +13,7 @@ RSpec.describe "Error Handling", type: :request do
     Need.delete_all
     Want.delete_all
     User.delete_all
-    
+
     @user = User.create!(nickname: "testuser_#{SecureRandom.hex(4)}", password: "password", password_confirmation: "password")
     post "/login", nickname: @user.nickname, password: "password"
     follow_redirect!

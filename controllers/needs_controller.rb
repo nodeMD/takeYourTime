@@ -83,11 +83,7 @@ class NeedsController < Sinatra::Base
   post "/need/:id/delete" do
     redirect "/login" unless current_user
     @need = current_user.needs.find_by(id: params[:id])
-    if @need
-      @need.destroy
-      redirect "/need"
-    else
-      redirect "/need"
-    end
+    @need&.destroy
+    redirect "/need"
   end
 end

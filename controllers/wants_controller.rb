@@ -83,11 +83,7 @@ class WantsController < Sinatra::Base
   post "/want/:id/delete" do
     redirect "/login" unless current_user
     @want = current_user.wants.find_by(id: params[:id])
-    if @want
-      @want.destroy
-      redirect "/want"
-    else
-      redirect "/want"
-    end
+    @want&.destroy
+    redirect "/want"
   end
 end

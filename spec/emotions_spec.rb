@@ -3,7 +3,7 @@ require_relative "../models/emotion"
 
 describe Emotion do
   let(:user) { User.create!(nickname: "testuser_#{SecureRandom.hex(4)}", password: "password") }
-  let(:valid_attributes) { { user: user, main_emotion: "Happiness", strength: "strong", emotion: "Excited" } }
+  let(:valid_attributes) { {user: user, main_emotion: "Happiness", strength: "strong", emotion: "Excited"} }
 
   describe "validations" do
     it "is valid with valid attributes" do
@@ -49,8 +49,8 @@ describe Emotion do
     end
 
     it "is destroyed when associated user is destroyed" do
-      emotion = Emotion.create!(valid_attributes)
-      expect { 
+      Emotion.create!(valid_attributes)
+      expect {
         Emotion.where(user: user).delete_all
         user.destroy
       }.to change(Emotion, :count).by(-1)
