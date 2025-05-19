@@ -8,9 +8,11 @@ require "./models/want"
 require_relative "controllers/needs_controller"
 require_relative "controllers/wants_controller"
 require_relative "controllers/emotions_controller"
+require_relative "controllers/esteems_controller"
 use NeedsController
 use WantsController
 use EmotionsController
+use EsteemsController
 
 # Configure session settings
 set :sessions, {

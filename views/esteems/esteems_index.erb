@@ -1,7 +1,4 @@
 <h2>Self-Esteem Exercise Calendar</h2>
-<% if @calendar_data.empty? %>
-  <p>Start working on your self-esteem!</p>
-<% else %>
   <div class="calendar-container">
     <div class="calendar-header">
       <% Date::ABBR_DAYNAMES.each do |day| %>
@@ -166,7 +163,6 @@
     });
   </script>
   </div>
-<% end %>
 
 <a href="/esteem/new" class="btn">Start the Exercise</a>
 <a href="/app" class="btn">Back to Tools</a>

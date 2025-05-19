@@ -19,7 +19,7 @@ class EsteemsController < Sinatra::Base
     unless current_user
       redirect "/login"
     end
-    erb :"esteem/esteems_new", layout: :layout
+    erb :"esteems/esteems_new", layout: :layout
   end
 
   # Step 2: Save to DB and redirect to index
@@ -73,6 +73,6 @@ class EsteemsController < Sinatra::Base
       @calendar_data[date_key] = user_esteems.any? { |e| e.created_at.to_date == date && e.esteem }
     end
 
-    erb :"esteem/esteems_index", layout: :layout
+    erb :"esteems/esteems_index", layout: :layout
   end
 end
