@@ -1,0 +1,27 @@
+<h2>Work on self-esteem</h2>
+<% if @errors %>
+  <ul class="errors">
+    <% @errors.each do |e| %>
+      <li><%= e %></li>
+    <% end %>
+  </ul>
+<% end %>
+<form action="/esteem" method="post">
+  <label>1. I am </label><br>
+  <input type="text" name="I am 1" maxlength="100" required><br>
+
+    <label>2. I am </label><br>
+  <input type="text" name="I am 2" maxlength="100" required><br>
+
+    <label>3. I am </label><br>
+  <input type="text" name="I am 3" maxlength="100" required><br>
+
+    <label>4. I am </label><br>
+  <input type="text" name="I am 4" maxlength="100" required><br>
+
+    <label>5. I am </label><br>
+  <input type="text" name="I am 5" maxlength="100" required><br>
+
+  <button type="submit" class="btn">Save</button>
+  <a href="/esteem" class="btn" onclick="return confirm('Are you sure, your changes will be discarded?')">Back to list</a>
+</form>
