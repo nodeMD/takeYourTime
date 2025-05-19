@@ -10,10 +10,25 @@
     <button id="theme-toggle" aria-label="Toggle theme" style="background:none;border:none;font-size:1.5em;cursor:pointer;">🌙</button>
     <nav>
       <% if current_user %>
+        <div id="stoper-container">
+          <div class="stoper">
+            <div class="stoper-time">00:00.0</div>
+            <div class="stoper-buttons">
+              <button id="stoper-toggle" class="stoper-button">Start</button>
+              <button id="stoper-reset" class="stoper-button">Reset</button>
+            </div>
+          </div>
+        </div>
         <a href="/logout" class="btn">Log Out</a>
       <% else %>
-        <a href="/signup" class="btn">Sign In</a>
-        <a href="/login" class="btn">Log In</a>
+        <% if current_page == '/signup' %>
+          <a href="/login" class="btn">Log In</a>
+        <% elsif current_page == '/login' %>
+          <a href="/signup" class="btn">Sign In</a>
+        <% else %>
+          <a href="/signup" class="btn">Sign In</a>
+          <a href="/login" class="btn">Log In</a>
+        <% end %>
       <% end %>
     </nav>
   </header>
@@ -22,4 +37,5 @@
   </main>
   <script src="/theme.js"></script>
 </body>
+<script src="/stoper.js"></script>
 </html>

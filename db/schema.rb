@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 6) do
+ActiveRecord::Schema.define(version: 8) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,15 @@ ActiveRecord::Schema.define(version: 6) do
     t.index ["user_id"], name: "index_needs_on_user_id"
   end
 
+  create_table "stoppers", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.boolean "running", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "time", default: 0, null: false
+    t.index ["user_id"], name: "index_stoppers_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "nickname", null: false
     t.string "password_digest", null: false
@@ -63,5 +72,6 @@ ActiveRecord::Schema.define(version: 6) do
   add_foreign_key "emotions", "users"
   add_foreign_key "esteems", "users", on_delete: :cascade
   add_foreign_key "needs", "users"
+  add_foreign_key "stoppers", "users"
   add_foreign_key "wants", "users"
 end

@@ -5,6 +5,7 @@ require "rack/session/cookie"
 require "./models/user"
 require "./models/need"
 require "./models/want"
+require "./models/stoper"
 require_relative "controllers/needs_controller"
 require_relative "controllers/wants_controller"
 require_relative "controllers/emotions_controller"
@@ -25,12 +26,98 @@ set :sessions, {
   same_site: :strict
 }
 
+# Stoper routes
+get "/stoper" do
+  if current_user
+    stopper = current_user.stoper || Stoper.create(user: current_user)
+    content_type :json
+    {time: stopper.time, running: stopper.running?}.to_json
+  else
+    halt 401, {error: "Unauthorized"}.to_json
+  end
+end
+
+post "/stoper" do
+  if current_user
+    stopper = current_user.stoper
+    if stopper&.running?
+      stopper.increment_time
+      content_type :json
+      {status: "updated"}.to_json
+    else
+      content_type :json
+      {status: "stopped"}.to_json
+    end
+  else
+    halt 401, {error: "Unauthorized"}.to_json
+  end
+end
+
+post "/stoper/start" do
+  if current_user
+    stopper = current_user.stoper || Stoper.create(user: current_user)
+    stopper.start
+    content_type :json
+    {status: "started"}.to_json
+  else
+    halt 401, {error: "Unauthorized"}.to_json
+  end
+end
+
+post "/stoper/stop" do
+  if current_user
+    stopper = current_user.stoper
+    stopper&.stop
+    content_type :json
+    {status: "stopped"}.to_json
+  else
+    halt 401, {error: "Unauthorized"}.to_json
+  end
+end
+
+post "/stoper/continue" do
+  if current_user
+    stopper = current_user.stoper
+    stopper&.continue
+    content_type :json
+    {status: "continued"}.to_json
+  else
+    halt 401, {error: "Unauthorized"}.to_json
+  end
+end
+
+post "/stoper/reset" do
+  if current_user
+    stopper = current_user.stoper
+    stopper&.reset
+    content_type :json
+    {status: "reset"}.to_json
+  else
+    halt 401, {error: "Unauthorized"}.to_json
+  end
+end
+
+# Add route to get formatted time
+get "/stoper/time" do
+  if current_user
+    stopper = current_user.stoper
+    content_type :json
+    {time: stopper&.formatted_time || "00:00.0", running: stopper&.running? || false}.to_json
+  else
+    halt 401, {error: "Unauthorized"}.to_json
+  end
+end
+
 set :database_file, "config/database.yml"
 enable :sessions
 
 helpers do
   def current_user
     @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
+  end
+
+  def current_page
+    @current_page ||= request.path_info
   end
 end
 
