@@ -159,6 +159,52 @@ a:not(.btn):hover {
   text-decoration: underline;
 }
 
+/* Checklist styles */
+.checklists-table, .items-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.checklists-table th, .items-table th {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.checklists-table td, .items-table td {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.items-table .completed {
+  background: #d4edda;
+}
+
+.toggle-button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.toggle-button:hover {
+  background: var(--bg-hover);
+}
+
+.toggle-button:active {
+  transform: scale(0.95);
+}
+
+.toggle-button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* Stoper Styles */
 .stoper {
   display: flex;

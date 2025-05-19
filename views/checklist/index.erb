@@ -1,0 +1,37 @@
+<h1>My Checklists</h1>
+
+<a href="/checklist/new" class="btn">Add New Checklist</a>
+
+<% if @checklists.any? %>
+  <table class="checklists-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Items</th>
+        <th>Completed</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @checklists.each do |checklist| %>
+        <tr>
+          <td><%= checklist.id %></td>
+          <td>
+            <a href="/checklist/<%= checklist.id %>"><%= checklist.name %></a>
+          </td>
+          <td>
+            <%= checklist.total_items_count %>
+          </td>
+          <td>
+            <%= "#{checklist.completed_items_count}/#{checklist.total_items_count}" %>
+            (<%= checklist.completion_percentage %>%)
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%= will_paginate @checklists %>
+<% else %>
+  <p>You don't have any checklists yet. Click "Add New Checklist" to create one.</p>
+<% end %>

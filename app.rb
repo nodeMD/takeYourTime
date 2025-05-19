@@ -6,14 +6,18 @@ require "./models/user"
 require "./models/need"
 require "./models/want"
 require "./models/stoper"
+require "./models/checklist"
+require "./models/checklist_item"
 require_relative "controllers/needs_controller"
 require_relative "controllers/wants_controller"
 require_relative "controllers/emotions_controller"
 require_relative "controllers/esteems_controller"
+require_relative "controllers/checklist_controller"
 use NeedsController
 use WantsController
 use EmotionsController
 use EsteemsController
+use ChecklistController
 
 # Configure session settings
 set :sessions, {
