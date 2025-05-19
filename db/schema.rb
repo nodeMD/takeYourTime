@@ -10,19 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 4) do
+ActiveRecord::Schema.define(version: 5) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "emotions", force: :cascade do |t|
-    t.bigint "user_id"
     t.string "main_emotion", null: false
     t.string "strength", null: false
     t.string "emotion", null: false
+    t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_emotions_on_user_id"
+  end
+
+  create_table "esteems", force: :cascade do |t|
+    t.bigint "user_id"
+    t.boolean "esteem", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_esteems_on_user_id"
   end
 
   create_table "needs", force: :cascade do |t|
@@ -52,7 +60,8 @@ ActiveRecord::Schema.define(version: 4) do
     t.index ["user_id"], name: "index_wants_on_user_id"
   end
 
-  add_foreign_key "emotions", "users"
-  add_foreign_key "needs", "users"
-  add_foreign_key "wants", "users"
+  add_foreign_key "emotions", "users", on_delete: :cascade
+  add_foreign_key "esteems", "users", on_delete: :cascade
+  add_foreign_key "needs", "users", on_delete: :cascade
+  add_foreign_key "wants", "users", on_delete: :cascade
 end
