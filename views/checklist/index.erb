@@ -1,0 +1,51 @@
+<h1>Your Checklists</h1>
+
+<a href="/checklist/new" class="btn">Create New Checklist</a>
+
+<% if @checklists.any? %>
+  <table class="checklists-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Created At</th>
+        <th>Items</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @checklists.each do |checklist| %>
+        <tr>
+          <td><a href="/checklist/<%= checklist.id %>"><%= checklist.name %></a></td>
+          <td><%= checklist.created_at.strftime('%Y-%m-%d %H:%M') %></td>
+          <td><%= checklist.total_items_count %></td>
+          <td class="actions">
+            <a href="/checklist/<%= checklist.id %>" class="btn btn-small">View</a>
+            <a href="/checklist/<%= checklist.id %>/edit" class="btn btn-small">Edit</a>
+            <form action="/checklist/<%= checklist.id %>" method="post" style="display: inline-block;">
+              <input type="hidden" name="_method" value="delete">
+              <button type="submit" class="btn btn-small btn-danger" onclick="return confirm('Are you sure you want to delete this checklist?')">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="pagination" style="margin: 18px 0 10px 0; text-align: center;">
+<div class="pagination" style="margin: 18px 0 10px 0; text-align: center;">
+    <% if @page > 1 %>
+      <a href="/want?page=<%= @page - 1 %>" class="btn">Previous</a>
+    <% else %>
+      <span class="btn" style="opacity:0.5;cursor:default;">Previous</span>
+    <% end %>
+    Page <%= @page %> of <%= @total_pages %>
+    <% if @page < @total_pages %>
+      <a href="/want?page=<%= @page + 1 %>" class="btn">Next</a>
+    <% else %>
+      <span class="btn" style="opacity:0.5;cursor:default;">Next</span>
+    <% end %>
+  </div>
+<% else %>
+  <p>You don't have any checklists yet. Click "Add New Checklist" to create one.</p>
+<% end %>
+<a href="/checklist/new" class="btn">Add New Checklist</a>
+<a href="/app" class="btn">Back to Tools</a>

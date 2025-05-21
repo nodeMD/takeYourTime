@@ -1,0 +1,13 @@
+<h1>New Checklist</h1>
+
+<form action="/checklist" method="POST">
+  <div class="form-group">
+    <label for="checklist_name">Checklist Name</label>
+    <input type="text" id="checklist_name" name="checklist[name]" required maxlength="100">
+  </div>
+  
+  <div class="form-actions">
+    <button type="submit" class="btn">Save</button>
+    <a href="/checklist" class="btn btn-secondary">Cancel</a>
+  </div>
+</form>

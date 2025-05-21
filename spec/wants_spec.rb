@@ -8,9 +8,6 @@ RSpec.describe "Wants Management", type: :request do
   end
 
   before(:each) do
-    Want.delete_all
-    Emotion.delete_all
-    User.delete_all
     @user = User.create!(nickname: "testuser_#{SecureRandom.hex(4)}", password: "password", password_confirmation: "password")
     post "/login", nickname: @user.nickname, password: "password"
     follow_redirect!

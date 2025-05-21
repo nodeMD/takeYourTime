@@ -159,6 +159,138 @@ a:not(.btn):hover {
   text-decoration: underline;
 }
 
+/* Checklist styles */
+.checklists-table, .items-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.checklists-table th, .items-table th {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.checklists-table td, .items-table td {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.items-table .completed {
+  background: #44a15a;
+}
+
+/* Action buttons */
+.actions {
+  white-space: nowrap;
+}
+
+.action-btn {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.action-btn:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+.action-btn:active {
+  transform: translateY(1px);
+}
+
+.action-btn-small {
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+}
+
+.action-btn-secondary {
+  background-color: #6c757d;
+}
+
+.action-btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+.action-btn-danger {
+  background-color: #dc3545;
+}
+
+.action-btn-danger:hover {
+  background-color: #c82333;
+}
+
+/* Toggle button */
+.toggle-button {
+  background: #444;
+  color: white;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  transition: background-color 0.2s, transform 0.1s;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+.toggle-button:hover {
+  background: #666;
+}
+
+.toggle-button:active {
+  transform: translateY(1px);
+}
+
+.toggle-button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Form styles */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-actions {
+  margin-top: 1.5rem;
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .form-control {
+  background-color: #2d2d2d;
+  border-color: #444;
+  color: #eee;
+}
+
+[data-theme="dark"] .action-btn {
+  color: white;
+}
+
 /* Stoper Styles */
 .stoper {
   display: flex;

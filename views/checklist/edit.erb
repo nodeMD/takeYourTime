@@ -1,0 +1,15 @@
+<h1>Edit Checklist</h1>
+
+<form action="/checklist/<%= @checklist.id %>" method="post">
+  <input type="hidden" name="_method" value="put">
+  
+  <div class="form-group">
+    <label for="name">Checklist Name:</label>
+    <input type="text" id="name" name="checklist[name]" value="<%= @checklist.name %>" class="form-control" required>
+  </div>
+  
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Update Checklist</button>
+    <a href="/checklist" class="btn btn-secondary">Cancel</a>
+  </div>
+</form>

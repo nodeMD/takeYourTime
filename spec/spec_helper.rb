@@ -5,6 +5,7 @@ require "rspec"
 require "sinatra/activerecord"
 require "yaml"
 require "erb"
+require "database_cleaner/active_record"
 require File.expand_path("../app", __dir__)
 
 # Configure DB with ERB processing so .env vars are applied
@@ -22,9 +23,23 @@ migration_context.migrate
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
+  
+  # Setup database cleaner
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
+  end
+
   def app
     Sinatra::Application
   end
+  
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end

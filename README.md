@@ -2,7 +2,7 @@
 
 # TakeYourTime
 
-A Sinatra-based app with simple tools for tracking emotions, needs, wants, working on self esteem and listening to podcast episodes. Features user authentication, pagination, and a modern UI with dark/light themes.
+A Sinatra-based app with simple tools for creating checklists, tracking emotions, needs, wants and working on self esteem plus listening to podcast episodes. Features user authentication, pagination, and a modern UI with dark/light themes.
 
 ## Setup
 

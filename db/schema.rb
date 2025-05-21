@@ -10,10 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 8) do
+ActiveRecord::Schema.define(version: 10) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "checklist_items", force: :cascade do |t|
+    t.bigint "checklist_id", null: false
+    t.string "name", limit: 200, null: false
+    t.boolean "completed", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["checklist_id"], name: "index_checklist_items_on_checklist_id"
+  end
+
+  create_table "checklists", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name", limit: 100, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_checklists_on_user_id"
+  end
 
   create_table "emotions", force: :cascade do |t|
     t.bigint "user_id"
@@ -69,6 +86,8 @@ ActiveRecord::Schema.define(version: 8) do
     t.index ["user_id"], name: "index_wants_on_user_id"
   end
 
+  add_foreign_key "checklist_items", "checklists"
+  add_foreign_key "checklists", "users"
   add_foreign_key "emotions", "users"
   add_foreign_key "esteems", "users", on_delete: :cascade
   add_foreign_key "needs", "users"
