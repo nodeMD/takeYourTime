@@ -179,11 +179,11 @@ a:not(.btn):hover {
 }
 
 .items-table .completed {
-  background: #d4edda;
+  background: #44a15a;
 }
 
 .toggle-button {
-  background: none;
+  background: #444;
   border: none;
   font-size: 1.2rem;
   cursor: pointer;
@@ -193,7 +193,7 @@ a:not(.btn):hover {
 }
 
 .toggle-button:hover {
-  background: var(--bg-hover);
+  background: #666;
 }
 
 .toggle-button:active {
