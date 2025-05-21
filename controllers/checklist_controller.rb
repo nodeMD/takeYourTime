@@ -1,6 +1,8 @@
 require_relative "../app"
 
 class ChecklistController < Sinatra::Base
+  set :views, File.expand_path('../../views', __FILE__)
+  set :layout, File.expand_path("../../views/layout.erb", __FILE__)
   include Rack::Utils
 
   helpers do
@@ -13,9 +15,16 @@ class ChecklistController < Sinatra::Base
     unless current_user
       redirect "/login"
     end
-    @page = params[:page].to_i || 1
-    @checklists = current_user.checklists.order(created_at: :desc).paginate(page: @page, per_page: 30)
-    erb :'checklist/index'
+    per_page = 20
+    @page = (params[:page] || 1).to_i
+    total = current_user.checklists.count
+    @total_pages = (total / per_page.to_f).ceil
+    if @page < 1 || (@total_pages > 0 && @page > @total_pages)
+      redirect "/checklist?page=1"
+    end
+    @checklists = current_user.checklists.order(created_at: :desc).limit(per_page).offset((@page - 1) * per_page)
+    @title = "Your Checklists"
+    erb :"checklist/index", layout: :layout
   end
 
   get '/checklist/new' do

@@ -30,8 +30,19 @@
       <% end %>
     </tbody>
   </table>
-
-  <%= will_paginate @checklists %>
+<div class="pagination" style="margin: 18px 0 10px 0; text-align: center;">
+    <% if @page > 1 %>
+      <a href="/want?page=<%= @page - 1 %>" class="btn">Previous</a>
+    <% else %>
+      <span class="btn" style="opacity:0.5;cursor:default;">Previous</span>
+    <% end %>
+    Page <%= @page %> of <%= @total_pages %>
+    <% if @page < @total_pages %>
+      <a href="/want?page=<%= @page + 1 %>" class="btn">Next</a>
+    <% else %>
+      <span class="btn" style="opacity:0.5;cursor:default;">Next</span>
+    <% end %>
+  </div>
 <% else %>
   <p>You don't have any checklists yet. Click "Add New Checklist" to create one.</p>
 <% end %>
