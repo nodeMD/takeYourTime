@@ -51,7 +51,8 @@ class ChecklistController < Sinatra::Base
     unless current_user
       redirect "/login"
     end
-    @checklist = current_user.checklists.find(params[:id])
+    @checklist = current_user.checklists.includes(:checklist_items).find(params[:id])
+    @checklist_items = @checklist.checklist_items.order(id: :desc).where('1=1') # Ensures we always return a relation
     erb :'checklist/show'
   end
 

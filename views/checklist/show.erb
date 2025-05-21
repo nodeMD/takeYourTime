@@ -1,19 +1,16 @@
 <h1><%= @checklist.name %></h1>
 
-<a href="/checklist" class="btn btn-secondary">Go Back</a>
-<a href="/checklist/<%= @checklist.id %>/items/new" class="btn">Add New Item</a>
-
-<% if @checklist.checklist_items.any? %>
-  <table class="items-table">
-    <thead>
-      <tr>
-        <th>Item ID</th>
-        <th>Item Name</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @checklist.checklist_items.each do |item| %>
+<table class="items-table">
+  <thead>
+    <tr>
+      <th>Item ID</th>
+      <th>Item Name</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @checklist_items.any? %>
+      <% @checklist_items.each do |item| %>
         <tr class="<%= 'completed' if item.completed %>">
           <td><%= item.id %></td>
           <td>
@@ -30,8 +27,14 @@
           </td>
         </tr>
       <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <p>This checklist is empty. Click "Add New Item" to add your first item.</p>
-<% end %>
+    <% else %>
+      <tr>
+        <td colspan="3" style="text-align: center;">
+          This checklist is empty. <a href="/checklist/<%= @checklist.id %>/items/new">Add New Item</a> to get started.
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<a href="/checklist" class="btn btn-secondary">Go Back</a>
+<a href="/checklist/<%= @checklist.id %>/items/new" class="btn">Add New Item</a>
