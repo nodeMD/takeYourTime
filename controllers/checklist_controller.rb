@@ -1,7 +1,7 @@
 require_relative "../app"
 
 class ChecklistController < Sinatra::Base
-  set :views, File.expand_path('../../views', __FILE__)
+  set :views, File.expand_path("../../views", __FILE__)
   set :layout, File.expand_path("../../views/layout.erb", __FILE__)
   include Rack::Utils
 
@@ -11,7 +11,7 @@ class ChecklistController < Sinatra::Base
     end
   end
 
-  get '/checklist' do
+  get "/checklist" do
     unless current_user
       redirect "/login"
     end
@@ -27,45 +27,45 @@ class ChecklistController < Sinatra::Base
     erb :"checklist/index", layout: :layout
   end
 
-  get '/checklist/new' do
+  get "/checklist/new" do
     unless current_user
       redirect "/login"
     end
     @checklist = Checklist.new
-    erb :'checklist/new'
+    erb :"checklist/new"
   end
 
-  post '/checklist' do
+  post "/checklist" do
     unless current_user
       redirect "/login"
     end
     @checklist = current_user.checklists.build(params[:checklist])
     if @checklist.save
-      redirect '/checklist'
+      redirect "/checklist"
     else
-      erb :'checklist/new'
+      erb :"checklist/new"
     end
   end
 
-  get '/checklist/:id' do
+  get "/checklist/:id" do
     unless current_user
       redirect "/login"
     end
     @checklist = current_user.checklists.includes(:checklist_items).find(params[:id])
-    @checklist_items = @checklist.checklist_items.order(id: :desc).where('1=1') # Ensures we always return a relation
-    erb :'checklist/show'
+    @checklist_items = @checklist.checklist_items.order(id: :desc).where("1=1") # Ensures we always return a relation
+    erb :"checklist/show"
   end
 
-  get '/checklist/:checklist_id/items/new' do
+  get "/checklist/:checklist_id/items/new" do
     unless current_user
       redirect "/login"
     end
     @checklist = current_user.checklists.find(params[:checklist_id])
     @item = ChecklistItem.new
-    erb :'checklist/items/new'
+    erb :"checklist/items/new"
   end
 
-  post '/checklist/:checklist_id/items' do
+  post "/checklist/:checklist_id/items" do
     unless current_user
       redirect "/login"
     end
@@ -74,20 +74,20 @@ class ChecklistController < Sinatra::Base
     if @item.save
       redirect "/checklist/#{@checklist.id}"
     else
-      erb :'checklist/items/new'
+      erb :"checklist/items/new"
     end
   end
 
-  get '/checklist/:checklist_id/items/:id/edit' do
+  get "/checklist/:checklist_id/items/:id/edit" do
     unless current_user
       redirect "/login"
     end
     @checklist = current_user.checklists.find(params[:checklist_id])
     @item = @checklist.checklist_items.find(params[:id])
-    erb :'checklist/items/edit'
+    erb :"checklist/items/edit"
   end
 
-  put '/checklist/:checklist_id/items/:id' do
+  put "/checklist/:checklist_id/items/:id" do
     unless current_user
       redirect "/login"
     end
@@ -96,11 +96,11 @@ class ChecklistController < Sinatra::Base
     if @item.update(params[:checklist_item])
       redirect "/checklist/#{@checklist.id}"
     else
-      erb :'checklist/items/edit'
+      erb :"checklist/items/edit"
     end
   end
 
-  delete '/checklist/:checklist_id/items/:id' do
+  delete "/checklist/:checklist_id/items/:id" do
     unless current_user
       redirect "/login"
     end
@@ -110,7 +110,7 @@ class ChecklistController < Sinatra::Base
     redirect "/checklist/#{@checklist.id}"
   end
 
-  post '/checklist/:checklist_id/items/:id/toggle' do
+  post "/checklist/:checklist_id/items/:id/toggle" do
     unless current_user
       redirect "/login"
     end
@@ -120,15 +120,15 @@ class ChecklistController < Sinatra::Base
     redirect "/checklist/#{@checklist.id}"
   end
 
-  get '/checklist/:id/edit' do
+  get "/checklist/:id/edit" do
     unless current_user
       redirect "/login"
     end
     @checklist = current_user.checklists.find(params[:id])
-    erb :'checklist/edit'
+    erb :"checklist/edit"
   end
 
-  put '/checklist/:id' do
+  put "/checklist/:id" do
     unless current_user
       redirect "/login"
     end
@@ -136,16 +136,16 @@ class ChecklistController < Sinatra::Base
     if @checklist.update(params[:checklist])
       redirect "/checklist"
     else
-      erb :'checklist/edit'
+      erb :"checklist/edit"
     end
   end
 
-  delete '/checklist/:id' do
+  delete "/checklist/:id" do
     unless current_user
       redirect "/login"
     end
     @checklist = current_user.checklists.find(params[:id])
     @checklist.destroy
-    redirect '/checklist'
+    redirect "/checklist"
   end
 end

@@ -2,7 +2,7 @@ class Checklist < ActiveRecord::Base
   belongs_to :user
   has_many :checklist_items, dependent: :destroy
 
-  validates :name, presence: true, length: { maximum: 100 }
+  validates :name, presence: true, length: {maximum: 100}
 
   def completed_items_count
     checklist_items.where(completed: true).count
