@@ -78,6 +78,38 @@ class ChecklistController < Sinatra::Base
     end
   end
 
+  get '/checklist/:checklist_id/items/:id/edit' do
+    unless current_user
+      redirect "/login"
+    end
+    @checklist = current_user.checklists.find(params[:checklist_id])
+    @item = @checklist.checklist_items.find(params[:id])
+    erb :'checklist/items/edit'
+  end
+
+  put '/checklist/:checklist_id/items/:id' do
+    unless current_user
+      redirect "/login"
+    end
+    @checklist = current_user.checklists.find(params[:checklist_id])
+    @item = @checklist.checklist_items.find(params[:id])
+    if @item.update(params[:checklist_item])
+      redirect "/checklist/#{@checklist.id}"
+    else
+      erb :'checklist/items/edit'
+    end
+  end
+
+  delete '/checklist/:checklist_id/items/:id' do
+    unless current_user
+      redirect "/login"
+    end
+    @checklist = current_user.checklists.find(params[:checklist_id])
+    @item = @checklist.checklist_items.find(params[:id])
+    @item.destroy
+    redirect "/checklist/#{@checklist.id}"
+  end
+
   post '/checklist/:checklist_id/items/:id/toggle' do
     unless current_user
       redirect "/login"
@@ -86,5 +118,34 @@ class ChecklistController < Sinatra::Base
     @item = @checklist.checklist_items.find(params[:id])
     @item.update(completed: !@item.completed)
     redirect "/checklist/#{@checklist.id}"
+  end
+
+  get '/checklist/:id/edit' do
+    unless current_user
+      redirect "/login"
+    end
+    @checklist = current_user.checklists.find(params[:id])
+    erb :'checklist/edit'
+  end
+
+  put '/checklist/:id' do
+    unless current_user
+      redirect "/login"
+    end
+    @checklist = current_user.checklists.find(params[:id])
+    if @checklist.update(params[:checklist])
+      redirect "/checklist"
+    else
+      erb :'checklist/edit'
+    end
+  end
+
+  delete '/checklist/:id' do
+    unless current_user
+      redirect "/login"
+    end
+    @checklist = current_user.checklists.find(params[:id])
+    @checklist.destroy
+    redirect '/checklist'
   end
 end

@@ -1,0 +1,15 @@
+<h1>Edit Item</h1>
+
+<form action="/checklist/<%= @checklist.id %>/items/<%= @item.id %>" method="post">
+  <input type="hidden" name="_method" value="put">
+  
+  <div class="form-group">
+    <label for="name">Item Name:</label>
+    <input type="text" id="name" name="checklist_item[name]" value="<%= @item.name %>" class="form-control" required>
+  </div>
+  
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Update Item</button>
+    <a href="/checklist/<%= @checklist.id %>" class="btn btn-secondary">Cancel</a>
+  </div>
+</form>
