@@ -1,7 +1,4 @@
 <h1>My Checklists</h1>
-
-<a href="/checklist/new" class="btn">Add New Checklist</a>
-
 <% if @checklists.any? %>
   <table class="checklists-table">
     <thead>
@@ -46,3 +43,5 @@
 <% else %>
   <p>You don't have any checklists yet. Click "Add New Checklist" to create one.</p>
 <% end %>
+<a href="/checklist/new" class="btn">Add New Checklist</a>
+<a href="/app" class="btn">Back to Tools</a>
