@@ -23,7 +23,7 @@ migration_context.migrate
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
-  
+
   # Setup database cleaner
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
@@ -39,7 +39,7 @@ RSpec.configure do |config|
   def app
     Sinatra::Application
   end
-  
+
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end

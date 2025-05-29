@@ -243,9 +243,9 @@ RSpec.describe "Checklist Management", type: :request do
         other_checklist = other_user.checklists.create!(name: "Other User's Checklist")
         other_item = other_checklist.checklist_items.create!(name: "Other Item")
         original_name = other_item.name
-        
+
         expect {
-          put "/checklist/#{other_checklist.id}/items/#{other_item.id}", { checklist_item: { name: "Hacked Item" } }
+          put "/checklist/#{other_checklist.id}/items/#{other_item.id}", {checklist_item: {name: "Hacked Item"}}
         }.to raise_error(ActiveRecord::RecordNotFound)
         expect(other_item.reload.name).to eq(original_name)
       end
@@ -270,7 +270,7 @@ RSpec.describe "Checklist Management", type: :request do
         expect {
           post "/checklist/#{other_checklist.id}/items/#{other_item.id}/toggle"
         }.to raise_error(ActiveRecord::RecordNotFound)
-        
+
         expect(other_item.reload.completed).to eq(original_status)
       end
     end
@@ -287,11 +287,11 @@ RSpec.describe "Checklist Management", type: :request do
       it "prevents deleting items from other users' checklists" do
         other_checklist = other_user.checklists.create!(name: "Other User's Checklist")
         other_item = other_checklist.checklist_items.create!(name: "Other Item")
-        
+
         expect {
           delete "/checklist/#{other_checklist.id}/items/#{other_item.id}"
         }.to raise_error(ActiveRecord::RecordNotFound)
-        
+
         expect(ChecklistItem.find_by(id: other_item.id)).to be_present
       end
     end
