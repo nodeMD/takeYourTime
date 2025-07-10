@@ -133,7 +133,7 @@ DEPENDENCIES
   database_cleaner-active_record
   dotenv
   kramdown
-  pg
+  pg (~> 1.3)
   puma
   rack
   rack-test

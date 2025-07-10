@@ -13,7 +13,12 @@
 ActiveRecord::Schema.define(version: 10) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_graphql"
+  enable_extension "pg_stat_statements"
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
+  enable_extension "supabase_vault"
+  enable_extension "uuid-ossp"
 
   create_table "checklist_items", force: :cascade do |t|
     t.bigint "checklist_id", null: false
@@ -75,6 +80,7 @@ ActiveRecord::Schema.define(version: 10) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["nickname"], name: "index_users_on_nickname", unique: true
+    t.check_constraint "(email_change_confirm_status >= 0) AND (email_change_confirm_status <= 2)", name: "users_email_change_confirm_status_check"
   end
 
   create_table "wants", force: :cascade do |t|
