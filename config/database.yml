@@ -27,3 +27,4 @@ production:
   port: <%= ENV['DB_PORT'] %>
   sslmode: require
   sslrootcert: <%= ENV['DB_SSLROOTCERT'] || './config/supabase-ca-cert.crt' %>
+  prepared_statements: false
