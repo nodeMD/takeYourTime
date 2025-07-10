@@ -10,17 +10,7 @@ environment ENV['RACK_ENV'] || 'development'
 on_worker_boot do
   # Reconnect to the database
   if defined?(ActiveRecord::Base)
-    ActiveRecord::Base.establish_connection(
-      adapter:  'postgresql',
-      database: ENV['DB_NAME'],
-      username: ENV['DB_USERNAME'],
-      password: ENV['DB_PASSWORD'],
-      host:     ENV['DB_HOST'],
-      port:     ENV['DB_PORT'] || 5432,
-      sslmode:  'require',
-      sslrootcert: ENV['DB_SSLROOTCERT'] || './config/supabase-ca-cert.crt',
-      prepared_statements: false
-    )
+    ActiveRecord::Base.establish_connection
   end
 end
 

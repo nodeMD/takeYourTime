@@ -24,7 +24,13 @@ production:
   username: <%= ENV['DB_USERNAME'] %>
   password: <%= ENV['DB_PASSWORD'] %>
   host: <%= ENV['DB_HOST'] %>
-  port: <%= ENV['DB_PORT'] %>
+  port: <%= ENV['DB_PORT'] || 5432 %>
   sslmode: require
   sslrootcert: <%= ENV['DB_SSLROOTCERT'] || './config/supabase-ca-cert.crt' %>
   prepared_statements: false
+  variables:
+    statement_timeout: 10000
+  connect_timeout: 10
+  checkout_timeout: 10
+  reaping_frequency: 10
+  connect_retries: 3
