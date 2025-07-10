@@ -4,11 +4,12 @@ threads threads_count, threads_count
 
 preload_app!
 
-rackup      DefaultRackup
 port        ENV['PORT']     || 10000
 environment ENV['RACK_ENV'] || 'development'
 
 on_worker_boot do
   # Worker specific setup
-  ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
+  if defined?(ActiveRecord::Base)
+    ActiveRecord::Base.establish_connection
+  end
 end
