@@ -10,6 +10,7 @@ gem "rake"
 gem "rack"
 gem "puma"
 gem "rackup"
+gem 'rack-timeout' 
 gem "standard", require: false
 gem "dotenv", require: "dotenv/load"
 gem "kramdown"
