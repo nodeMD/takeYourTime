@@ -1,3 +1,29 @@
+<style>
+  .clickable-row {
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  .clickable-row:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  @media (prefers-color-scheme: light) {
+    .clickable-row:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+  }
+  .clickable-row a {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 8px;
+  }
+  .clickable-row td:first-child {
+    padding-left: 8px;
+  }
+</style>
+
 <h2>Your Wants</h2>
 <% if @wants.empty? %>
   <p>You do not want anything yet. Create something!</p>
@@ -13,8 +39,8 @@
     </thead>
     <tbody>
       <% @wants.each do |wants| %>
-        <tr>
-          <td><a href="/want/<%= wants.id %>"><%= wants.id %></a></td>
+        <tr class="clickable-row" onclick="window.location='/want/<%= wants.id %>';">
+          <td><%= wants.id %></td>
           <td><%= wants.what %></td>
           <td><%= wants.how.presence || '-' %></td>
         </tr>

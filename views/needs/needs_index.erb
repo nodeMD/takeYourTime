@@ -1,3 +1,29 @@
+<style>
+  .clickable-row {
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  .clickable-row:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  @media (prefers-color-scheme: light) {
+    .clickable-row:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+  }
+  .clickable-row a {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 8px;
+  }
+  .clickable-row td:first-child {
+    padding-left: 8px;
+  }
+</style>
+
 <h2>Your Needs</h2>
 <% if @needs.empty? %>
   <p>No needs yet. Create one!</p>
@@ -13,8 +39,8 @@
     </thead>
     <tbody>
       <% @needs.each do |need| %>
-        <tr>
-          <td><a href="/need/<%= need.id %>"><%= need.id %></a></td>
+        <tr class="clickable-row" onclick="window.location='/need/<%= need.id %>';">
+          <td><%= need.id %></td>
           <td><%= need.what %></td>
           <td><%= need.benefits.presence || '-' %></td>
         </tr>
