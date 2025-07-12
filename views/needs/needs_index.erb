@@ -32,7 +32,6 @@
   <table class="emotions-table">
     <thead>
       <tr>
-        <th>ID</th>
         <th>What</th>
         <th>Benefits</th>
       </tr>
@@ -40,7 +39,6 @@
     <tbody>
       <% @needs.each do |need| %>
         <tr class="clickable-row" onclick="window.location='/need/<%= need.id %>';">
-          <td><%= need.id %></td>
           <td><%= need.what %></td>
           <td><%= need.benefits.presence || '-' %></td>
         </tr>
