@@ -149,6 +149,28 @@ nav .btn, nav a.btn {
   padding: 0.5rem 1rem;
 }
 
+/* Danger button style */
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  transform: translateY(-1px);
+}
+
+.btn-danger:active {
+  transform: translateY(0);
+}
+
+/* Make sure all buttons have consistent min-width */
+#tts-btn, .btn-danger {
+  min-width: 120px;
+  padding: 0.65rem 1.25rem;
+  margin: 0 0.25rem;
+}
+
 /* Form buttons */
 form .btn, form button, form input[type="submit"], form input[type="button"] {
   margin: 0.5rem 0.5rem 0.5rem 0;
