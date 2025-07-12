@@ -13,16 +13,22 @@
     font-weight: 600;
     cursor: pointer;
     color: #fff;
-    transition: transform 0.1s;
+    transition: transform 0.1s, opacity 0.2s;
+    opacity: 0.9;
   }
-  .emotion-main-btn:hover { transform: scale(1.08); }
-  .emotion-Happiness { background: #FFD600; color: #333; }
-  .emotion-Sadness { background: #2196F3; }
-  .emotion-Fear { background: #4CAF50; }
-  .emotion-Uncertainty { background: #FF9800; }
-  .emotion-Anger { background: #F44336; }
-  .emotion-Potency { background: #8E24AA; }
-  .emotion-Inadequacy { background: #795548; }
+  
+  .emotion-main-btn:hover {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  /* Emotion color classes - using !important to ensure they override any theme colors */
+  .emotion-Happiness { background: #FFD600 !important; color: #333 !important; }
+  .emotion-Sadness { background: #2196F3 !important; color: white !important; }
+  .emotion-Fear { background: #4CAF50 !important; color: white !important; }
+  .emotion-Uncertainty { background: #FF9800 !important; color: white !important; }
+  .emotion-Anger { background: #F44336 !important; color: white !important; }
+  .emotion-Potency { background: #8E24AA !important; color: white !important; }
+  .emotion-Inadequacy { background: #795548 !important; color: white !important; }
   .emotion-step { margin: 24px 0; }
   .emotion-strength-btn {
     margin: 8px;
@@ -42,7 +48,13 @@
     background: var(--input-bg, #fafafa);
     color: var(--text);
     font-size: 1em;
-    transition: background 0.2s, color 0.2s;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .emotion-choice-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
   .emotion-choice-btn.selected { border: 2px solid #2196F3; background: #E3F2FD; }
 

@@ -15,17 +15,20 @@ class Stoper {
   createStoperUI() {
     const container = document.getElementById('stoper-container');
     if (!container) return;
-
-    const stopperHtml = `
-      <div class="stoper">
-        <div class="stoper-time">00:00.0</div>
-        <div class="stoper-buttons">
-          <button id="stoper-toggle" class="stoper-button">Start</button>
-          <button id="stoper-reset" class="stoper-button">Reset</button>
+    
+    // Only create the inner stoper UI if it doesn't exist
+    if (!container.querySelector('.stoper')) {
+      const stopperHtml = `
+        <div class="stoper">
+          <div class="stoper-time">00:00.0</div>
+          <div class="stoper-buttons">
+            <button id="stoper-toggle" class="btn">Start</button>
+            <button id="stoper-reset" class="btn">Reset</button>
+          </div>
         </div>
-      </div>
-    `;
-    container.innerHTML = stopperHtml;
+      `;
+      container.innerHTML = stopperHtml;
+    }
   }
 
   loadStoperState() {
@@ -114,7 +117,11 @@ class Stoper {
     const seconds = totalSeconds % 60;
     const tenths = Math.floor((this.time % 1000) / 100);
     const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${tenths}`;
-    document.querySelector('.stoper-time').textContent = formattedTime;
+    
+    const timeElement = document.querySelector('.stoper-time');
+    if (timeElement) {
+      timeElement.textContent = formattedTime;
+    }
   }
 
   updateButton() {

@@ -1,16 +1,13 @@
-(function() {
+document.addEventListener('DOMContentLoaded', function() {
   const toggleBtn = document.getElementById('theme-toggle');
+  if (!toggleBtn) return;
+  
   const root = document.documentElement;
   
-  // Initialize theme
-  const storedTheme = localStorage.getItem('theme');
-  if (storedTheme) {
-    root.setAttribute('data-theme', storedTheme);
-    toggleBtn.textContent = storedTheme === 'dark' ? '☀️' : '🌙';
-  } else {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    root.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-    toggleBtn.textContent = prefersDark ? '☀️' : '🌙';
+  // Update button icon based on current theme
+  function updateButtonIcon() {
+    const currentTheme = root.getAttribute('data-theme');
+    toggleBtn.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
   }
 
   // Toggle on click
@@ -19,6 +16,9 @@
     const next = current === 'dark' ? 'light' : 'dark';
     root.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
-    toggleBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+    updateButtonIcon();
   });
-})();
+  
+  // Initialize button icon
+  updateButtonIcon();
+});

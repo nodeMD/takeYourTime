@@ -1,11 +1,46 @@
 <h1>Welcome <%= current_user.nickname %></h1>
-<div>
-    <p>Tools 🛠️:</p>
-    <a href="/checklist" class="btn">Checklists</a>
-    <a href="/need" class="btn">Do I need it</a>
-    <a href="/want" class="btn">What I want</a>
-    <a href="/emotion" class="btn">How I feel</a>
-    <a href="/esteem" class="btn">I am (self-esteem exercise)</a>
+<div class="tools-grid">
+    <h2>Tools 🛠️</h2>
+    <div class="button-group">
+        <a href="/checklist" class="btn btn-primary">Checklists</a>
+        <a href="/need" class="btn btn-primary">Do I need it</a>
+        <a href="/want" class="btn btn-primary">What I want</a>
+        <a href="/emotion" class="btn btn-primary">How I feel</a>
+        <a href="/esteem" class="btn btn-primary">I am (self-esteem exercise)</a>
+    </div>
 </div>
-<p>Check the Podcast 🎧:</p>
-<a href="/podcast" class="btn">Podcast</a>
+
+<div class="podcast-section">
+    <h2>Podcast 🎧</h2>
+    <div class="button-group">
+        <a href="/podcast" class="btn btn-secondary">Listen to Podcast</a>
+    </div>
+</div>
+
+<style>
+.tools-grid, .podcast-section {
+    margin-bottom: 2rem;
+}
+
+.tools-grid h2, .podcast-section h2 {
+    margin-bottom: 1rem;
+    color: var(--text);
+}
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 600px) {
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+}
+</style>

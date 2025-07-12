@@ -24,8 +24,6 @@ A Sinatra-based app with simple tools for creating checklists, tracking emotions
 4. **Run the app:**
    ```sh
    bundle exec rackup
-   # or
-   bundle exec ruby app.rb
    ```
 
 5. **Access the app:**

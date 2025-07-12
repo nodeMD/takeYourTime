@@ -2,6 +2,7 @@
 <% if @wants.empty? %>
   <p>You do not want anything yet. Create something!</p>
 <% else %>
+<div style="overflow-x:auto;">
   <table class="emotions-table">
     <thead>
       <tr>
@@ -20,6 +21,7 @@
       <% end %>
     </tbody>
   </table>
+</div>
   <div class="pagination" style="margin: 18px 0 10px 0; text-align: center;">
     <% if @page > 1 %>
       <a href="/want?page=<%= @page - 1 %>" class="btn">Previous</a>

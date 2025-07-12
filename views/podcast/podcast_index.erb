@@ -3,7 +3,7 @@
   <input type="text" name="q" value="<%= query %>" placeholder="Search episodes or text..." class="search-input" />
   <button type="submit" class="btn">Search</button>
 </form>
-
+<div style="overflow-x:auto;">
 <table class="emotions-table">
   <thead>
     <tr>
@@ -18,7 +18,7 @@
     <% end %>
   </tbody>
 </table>
-
+</div>
 <div class="pagination" style="margin: 18px 0 10px 0; text-align: center;">
   <% if page > 1 %>
     <a href="/podcast?page=<%= page - 1 %><%= query ? "&q=#{URI.encode_www_form_component(query)}" : '' %>" class="btn">Previous</a>

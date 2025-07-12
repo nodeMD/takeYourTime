@@ -1,44 +1,101 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title><%= @title || 'TakeYourTime' %></title>
   <link rel="stylesheet" href="/style.css">
+  <meta name="theme-color" content="#007BFF">
+  <style>
+    /* Critical CSS to prevent FOUC and flash of wrong theme */
+    :root {
+      --bg: #ffffff;
+      --text: #333333;
+      --header-bg: #f8f9fa;
+      --border: #dee2e6;
+      --btn-bg: #007BFF;
+      --btn-bg-hover: #0056b3;
+      --btn-text: #ffffff;
+      --btn-bg-rgb: 0, 123, 255;
+    }
+    
+    [data-theme="dark"] {
+      --bg: #1a1a1a;
+      --text: #f8f9fa;
+      --header-bg: #2d2d2d;
+      --border: #444;
+      --btn-bg: #4a90e2;
+      --btn-bg-hover: #63a0e6;
+      --btn-text: #ffffff;
+      --btn-bg-rgb: 74, 144, 226;
+    }
+    
+    /* Prevent flash of unstyled buttons */
+    button, .btn, .action-btn, input[type="submit"], input[type="button"] {
+      background-color: var(--btn-bg) !important;
+      color: var(--btn-text) !important;
+      border: none !important;
+      outline: none !important;
+    }
+    
+    /* Hide content until theme is applied */
+    body:not(.theme-loaded) {
+      opacity: 0;
+      transition: opacity 0.1s;
+    }
+    
+    body.theme-loaded {
+      opacity: 1;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <button id="theme-toggle" aria-label="Toggle theme" style="background:none;border:none;font-size:1.5em;cursor:pointer;">🌙</button>
+    <div class="header-content">
+      <h1 class="site-title">TakeYourTime</h1>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">🌙</button>
+    </div>
     <nav>
       <% if current_user %>
-        <% if ["/need/new", "/want/new", "/esteem/new"].include?(request.path) %>
-          <div id="stoper-container">
-            <div class="stoper">
-              <div class="stoper-time">00:00.0</div>
-              <div class="stoper-buttons">
-                <button id="stoper-toggle" class="stoper-button">Start</button>
-                <button id="stoper-reset" class="stoper-button">Reset</button>
-              </div>
-            </div>
-          </div>
-        <% end %>
-        <a href="/logout" class="btn">Log Out</a>
+        <a href="/logout" class="btn btn-secondary">Log Out</a>
       <% else %>
-        <% if request.path == '/signup' %>
-          <a href="/login" class="btn">Log In</a>
-        <% elsif request.path == '/login' %>
-          <a href="/signup" class="btn">Sign In</a>
-        <% else %>
-          <a href="/signup" class="btn">Sign In</a>
-          <a href="/login" class="btn">Log In</a>
-        <% end %>
+        <div class="button-group">
+          <% if request.path == '/signup' %>
+            <a href="/login" class="btn">Log In</a>
+          <% elsif request.path == '/login' %>
+            <a href="/signup" class="btn">Sign Up</a>
+          <% else %>
+            <a href="/signup" class="btn">Sign Up</a>
+            <a href="/login" class="btn btn-secondary">Log In</a>
+          <% end %>
+        </div>
       <% end %>
     </nav>
   </header>
+  
+  <% if current_user && ["/need/new", "/want/new", "/esteem/new"].include?(request.path) %>
+    <div id="stoper-container" class="stoper-container">
+      <div class="stoper">
+        <div class="stoper-time">00:00.0</div>
+        <div class="stoper-buttons">
+          <button id="stoper-toggle" class="btn">Start</button>
+          <button id="stoper-reset" class="btn">Reset</button>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <div class="content-wrapper">
   <main>
     <%= yield %>
   </main>
-  <script src="/theme.js"></script>
-  <script src="/disable-autocomplete.js"></script>
+  <script>
+    // Apply theme before page is visible
+    document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || 'light');
+    document.body.classList.add('theme-loaded');
+  </script>
+  <script src="/theme.js" defer></script>
+  <script src="/disable-autocomplete.js" defer></script>
+  </div>
+  <script src="/stoper.js"></script>
 </body>
-<script src="/stoper.js"></script>
 </html>

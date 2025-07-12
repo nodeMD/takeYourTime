@@ -1,11 +1,11 @@
-workers Integer(ENV['WEB_CONCURRENCY'] || 2)
-threads_count = Integer(ENV['MAX_THREADS'] || 5)
+workers Integer(ENV["WEB_CONCURRENCY"] || 2)
+threads_count = Integer(ENV["MAX_THREADS"] || 5)
 threads threads_count, threads_count
 
 preload_app!
 
-port        ENV['PORT']     || 10000
-environment ENV['RACK_ENV'] || 'development'
+port ENV["PORT"] || 10000
+environment ENV["RACK_ENV"] || "development"
 
 on_worker_boot do
   # Reconnect to the database

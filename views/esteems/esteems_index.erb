@@ -1,11 +1,11 @@
-<h2>Self-Esteem Exercise Calendar</h2>
+<div class="calendar-wrapper">
+  <h2>Self-Esteem Exercise Calendar</h2>
   <div class="calendar-container">
     <div class="calendar-header">
       <% Date::ABBR_DAYNAMES.each do |day| %>
         <div class="calendar-day-header"><%= day %></div>
       <% end %>
     </div>
-    
     <div class="calendar-body">
       <% # Get the first day of the month
         first_day = Date.today.beginning_of_month
@@ -23,7 +23,7 @@
           is_current_month = current_date.month == Date.today.month
         %>
         <div class="calendar-day <%= 'completed' if @calendar_data[date_key] %> <%= 'other-month' unless is_current_month %>">
-          <%= current_date.day %>
+          <span class="day-number"><%= current_date.day %></span>
         </div>
         <% 
           # Move to the next day
@@ -32,159 +32,130 @@
       <% end %>
     </div>
   </div>
-
-  <style>
-    .calendar-container {
-      margin: 20px;
-      font-family: Arial, sans-serif;
-    }
-    
-    .calendar-header {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      background-color: #f5f5f5;
-      padding: 10px;
-      border-radius: 8px 8px 0 0;
-      border-bottom: 2px solid #ddd;
-    }
-    
-    .calendar-day-header {
-      text-align: center;
-      font-weight: bold;
-      color: #333;
-    }
-    
-    .calendar-body {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 2px;
-      padding: 10px;
-      background-color: #f9f9f9;
-      border-radius: 0 0 8px 8px;
-    }
-    
-    .calendar-day {
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 4px;
-      background-color: #fff;
-      border: 1px solid #ddd;
-      cursor: default;
-      transition: background-color 0.2s;
-    }
-    
-    .calendar-day.completed {
-      background-color: #4CAF50;
-      color: white;
-      border-color: #4CAF50;
-    }
-    
-    .calendar-day.other-month {
-      color: #ccc;
-      background-color: #f5f5f5;
-      border-color: #f5f5f5;
-    }
-    
-    .calendar-day:not(.completed):not(.other-month) {
-      color: #666;
-    }
-    
-    .calendar-day:hover:not(.completed):not(.other-month) {
-      background-color: #f0f0f0;
-    }
-  </style>
-
-  <style>
-    .calendar-container {
-      margin: 20px;
-      font-family: Arial, sans-serif;
-    }
-    
-    .calendar-header {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      background-color: #f5f5f5;
-      padding: 10px;
-      border-radius: 8px 8px 0 0;
-    }
-    
-    .calendar-day-header {
-      text-align: center;
-      font-weight: bold;
-      color: #333;
-    }
-    
-    .calendar-body {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 2px;
-      padding: 10px;
-    }
-    
-    .calendar-day {
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 4px;
-      background-color: #fff;
-      border: 1px solid #ddd;
-      cursor: default;
-    }
-    
-    .calendar-day.completed {
-      background-color: #4CAF50;
-      color: white;
-    }
-    
-    .calendar-day:not(.completed) {
-      color: #666;
-    }
-  </style>
-
-  <script>
-    // Add hover effect
-    document.querySelectorAll('.calendar-day').forEach(day => {
-      day.addEventListener('mouseenter', () => {
-        if (!day.classList.contains('completed')) {
-          day.style.backgroundColor = '#f0f0f0';
-        }
-      });
-      
-      day.addEventListener('mouseleave', () => {
-        if (!day.classList.contains('completed')) {
-          day.style.backgroundColor = '#fff';
-        }
-      });
-    });
-  </script>
+  <div class="button-group">
+    <a href="/esteem/new" class="btn">Start the Exercise</a>
+    <a href="/app" class="btn btn-secondary">Back to Tools</a>
   </div>
-
-<a href="/esteem/new" class="btn">Start the Exercise</a>
-<a href="/app" class="btn">Back to Tools</a>
+</div>
 
 <style>
-  .btn {
-    display: inline-block;
-    padding: 8px 16px;
-    margin: 5px;
-    background-color: #4CAF50;
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
+  .calendar-wrapper {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 1rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  }
+  
+  .calendar-container {
+    background: var(--header-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+  }
+  
+  .calendar-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background: var(--header-bg);
+    padding: 0.75rem 0.5rem;
+    gap: 2px;
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .calendar-day-header {
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text);
+    padding: 0.5rem 0;
+  }
+  
+  .calendar-body {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    padding: 0.5rem;
+    background: var(--bg);
+  }
+  
+  .calendar-day {
+    aspect-ratio: 1;
+    min-height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    background: var(--header-bg);
+    border: 1px solid var(--border);
+    transition: all 0.2s ease;
+    position: relative;
     cursor: pointer;
   }
   
-  .btn:hover {
-    background-color: #45a049;
+  .calendar-day .day-number {
+    font-size: 0.9rem;
+    font-weight: 500;
   }
   
-  .btn[disabled], .btn[disabled]:hover {
-    background-color: #cccccc;
-    cursor: not-allowed;
+  .calendar-day.completed {
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    border-color: var(--btn-bg);
+  }
+  
+  .calendar-day.other-month {
+    color: var(--border);
+    background: transparent;
+    border-color: transparent;
+  }
+  
+  .calendar-day:not(.completed):not(.other-month) {
+    color: var(--text);
+  }
+  
+  .calendar-day:not(.completed):not(.other-month):hover {
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    transform: scale(1.05);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .calendar-wrapper {
+      padding: 0.5rem;
+    }
+    
+    .calendar-day-header {
+      font-size: 0.75rem;
+      padding: 0.25rem 0;
+    }
+    
+    .calendar-day .day-number {
+      font-size: 0.8rem;
+    }
+    
+    .calendar-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .btn {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 400px) {
+    .calendar-day-header {
+      font-size: 0.7rem;
+    }
+    
+    .calendar-day .day-number {
+      font-size: 0.75rem;
+    }
   }
 </style>
+  </div>
+
+
+
