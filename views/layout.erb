@@ -53,24 +53,26 @@
   <header>
     <div class="header-content">
       <h1 class="site-title">TakeYourTime</h1>
-      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">🌙</button>
-    </div>
-    <nav>
-      <% if current_user %>
-        <a href="/logout" class="btn btn-secondary">Log Out</a>
-      <% else %>
-        <div class="button-group">
-          <% if request.path == '/signup' %>
-            <a href="/login" class="btn">Log In</a>
-          <% elsif request.path == '/login' %>
-            <a href="/signup" class="btn">Sign Up</a>
+      <div class="header-right">
+        <nav>
+          <% if current_user %>
+            <a href="/logout" class="btn btn-secondary">Log Out</a>
           <% else %>
-            <a href="/signup" class="btn">Sign Up</a>
-            <a href="/login" class="btn btn-secondary">Log In</a>
+            <div class="button-group">
+              <% if request.path == '/signup' %>
+                <a href="/login" class="btn">Log In</a>
+              <% elsif request.path == '/login' %>
+                <a href="/signup" class="btn">Sign Up</a>
+              <% else %>
+                <a href="/signup" class="btn">Sign Up</a>
+                <a href="/login" class="btn btn-secondary">Log In</a>
+              <% end %>
+            </div>
           <% end %>
-        </div>
-      <% end %>
-    </nav>
+        </nav>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">🌙</button>
+      </div>
+    </div>
   </header>
   
   <% if current_user && ["/need/new", "/want/new", "/esteem/new"].include?(request.path) %>
