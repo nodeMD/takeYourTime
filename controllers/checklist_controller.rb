@@ -9,6 +9,21 @@ class ChecklistController < Sinatra::Base
     def current_user
       User.find(session[:user_id]) if session[:user_id]
     end
+    
+    def not_found
+      status 404
+      erb :not_found, layout: :layout
+    end
+  end
+  
+  # Handle RecordNotFound errors
+  error ActiveRecord::RecordNotFound do
+    not_found
+  end
+  
+  # Handle other 404 errors
+  error 404 do
+    not_found
   end
 
   get "/checklist" do
@@ -60,21 +75,29 @@ class ChecklistController < Sinatra::Base
     unless current_user
       redirect "/login"
     end
-    @checklist = current_user.checklists.find(params[:checklist_id])
-    @item = ChecklistItem.new
-    erb :"checklist/items/new"
+    begin
+      @checklist = current_user.checklists.find(params[:checklist_id])
+      @item = ChecklistItem.new
+      erb :"checklist/items/new"
+    rescue ActiveRecord::RecordNotFound
+      not_found
+    end
   end
 
   post "/checklist/:checklist_id/items" do
     unless current_user
       redirect "/login"
     end
-    @checklist = current_user.checklists.find(params[:checklist_id])
-    @item = @checklist.checklist_items.build(params[:checklist_item])
-    if @item.save
-      redirect "/checklist/#{@checklist.id}"
-    else
-      erb :"checklist/items/new"
+    begin
+      @checklist = current_user.checklists.find(params[:checklist_id])
+      @item = @checklist.checklist_items.build(params[:checklist_item])
+      if @item.save
+        redirect "/checklist/#{@checklist.id}"
+      else
+        erb :"checklist/items/new"
+      end
+    rescue ActiveRecord::RecordNotFound
+      not_found
     end
   end
 
@@ -82,21 +105,29 @@ class ChecklistController < Sinatra::Base
     unless current_user
       redirect "/login"
     end
-    @checklist = current_user.checklists.find(params[:checklist_id])
-    @item = @checklist.checklist_items.find(params[:id])
-    erb :"checklist/items/edit"
+    begin
+      @checklist = current_user.checklists.find(params[:checklist_id])
+      @item = @checklist.checklist_items.find(params[:id])
+      erb :"checklist/items/edit"
+    rescue ActiveRecord::RecordNotFound
+      not_found
+    end
   end
 
   put "/checklist/:checklist_id/items/:id" do
     unless current_user
       redirect "/login"
     end
-    @checklist = current_user.checklists.find(params[:checklist_id])
-    @item = @checklist.checklist_items.find(params[:id])
-    if @item.update(params[:checklist_item])
-      redirect "/checklist/#{@checklist.id}"
-    else
-      erb :"checklist/items/edit"
+    begin
+      @checklist = current_user.checklists.find(params[:checklist_id])
+      @item = @checklist.checklist_items.find(params[:id])
+      if @item.update(params[:checklist_item])
+        redirect "/checklist/#{@checklist.id}"
+      else
+        erb :"checklist/items/edit"
+      end
+    rescue ActiveRecord::RecordNotFound
+      not_found
     end
   end
 
@@ -104,20 +135,28 @@ class ChecklistController < Sinatra::Base
     unless current_user
       redirect "/login"
     end
-    @checklist = current_user.checklists.find(params[:checklist_id])
-    @item = @checklist.checklist_items.find(params[:id])
-    @item.destroy
-    redirect "/checklist/#{@checklist.id}"
+    begin
+      @checklist = current_user.checklists.find(params[:checklist_id])
+      @item = @checklist.checklist_items.find(params[:id])
+      @item.destroy
+      redirect "/checklist/#{@checklist.id}"
+    rescue ActiveRecord::RecordNotFound
+      not_found
+    end
   end
 
   post "/checklist/:checklist_id/items/:id/toggle" do
     unless current_user
       redirect "/login"
     end
-    @checklist = current_user.checklists.find(params[:checklist_id])
-    @item = @checklist.checklist_items.find(params[:id])
-    @item.update(completed: !@item.completed)
-    redirect "/checklist/#{@checklist.id}"
+    begin
+      @checklist = current_user.checklists.find(params[:checklist_id])
+      @item = @checklist.checklist_items.find(params[:id])
+      @item.update(completed: !@item.completed)
+      redirect "/checklist/#{@checklist.id}"
+    rescue ActiveRecord::RecordNotFound
+      not_found
+    end
   end
 
   get "/checklist/:id/edit" do
