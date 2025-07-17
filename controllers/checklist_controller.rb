@@ -9,18 +9,18 @@ class ChecklistController < Sinatra::Base
     def current_user
       User.find(session[:user_id]) if session[:user_id]
     end
-    
+
     def not_found
       status 404
       erb :not_found, layout: :layout
     end
   end
-  
+
   # Handle RecordNotFound errors
   error ActiveRecord::RecordNotFound do
     not_found
   end
-  
+
   # Handle other 404 errors
   error 404 do
     not_found
