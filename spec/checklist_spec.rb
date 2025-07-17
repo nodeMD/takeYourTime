@@ -109,9 +109,9 @@ RSpec.describe "Checklist Management", type: :request do
 
     it "prevents accessing other users' checklists" do
       other_checklist = other_user.checklists.create!(name: "Other User's Checklist")
-      expect {
-        get "/checklist/#{other_checklist.id}"
-      }.to raise_error(ActiveRecord::RecordNotFound)
+      get "/checklist/#{other_checklist.id}"
+      expect(last_response.status).to eq(404)
+      expect(last_response.body).to include("404 - Not Found")
     end
   end
 
@@ -125,9 +125,9 @@ RSpec.describe "Checklist Management", type: :request do
 
     it "prevents editing other users' checklists" do
       other_checklist = other_user.checklists.create!(name: "Other User's Checklist")
-      expect {
-        get "/checklist/#{other_checklist.id}/edit"
-      }.to raise_error(ActiveRecord::RecordNotFound)
+      get "/checklist/#{other_checklist.id}/edit"
+      expect(last_response.status).to eq(404)
+      expect(last_response.body).to include("404 - Not Found")
     end
   end
 
@@ -149,9 +149,9 @@ RSpec.describe "Checklist Management", type: :request do
     it "prevents updating other users' checklists" do
       other_checklist = other_user.checklists.create!(name: "Other User's Checklist")
       original_name = other_checklist.name
-      expect {
-        put "/checklist/#{other_checklist.id}", {checklist: {name: "Hacked Checklist"}}
-      }.to raise_error(ActiveRecord::RecordNotFound)
+      put "/checklist/#{other_checklist.id}", {checklist: {name: "Hacked Checklist"}}
+      expect(last_response.status).to eq(404)
+      expect(last_response.body).to include("404 - Not Found")
       expect(other_checklist.reload.name).to eq(original_name)
     end
   end
@@ -170,9 +170,9 @@ RSpec.describe "Checklist Management", type: :request do
 
     it "prevents deleting other users' checklists" do
       other_checklist = other_user.checklists.create!(name: "Other User's Checklist")
-      expect {
-        delete "/checklist/#{other_checklist.id}"
-      }.to raise_error(ActiveRecord::RecordNotFound)
+      delete "/checklist/#{other_checklist.id}"
+      expect(last_response.status).to eq(404)
+      expect(last_response.body).to include("404 - Not Found")
       expect(Checklist.exists?(other_checklist.id)).to be true
     end
   end
@@ -199,9 +199,9 @@ RSpec.describe "Checklist Management", type: :request do
 
       it "prevents adding items to other users' checklists" do
         other_checklist = other_user.checklists.create!(name: "Other User's Checklist")
-        expect {
-          post "/checklist/#{other_checklist.id}/items", {checklist_item: {name: "Hacked Item"}}
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        post "/checklist/#{other_checklist.id}/items", {checklist_item: {name: "Hacked Item"}}
+        expect(last_response.status).to eq(404)
+        expect(last_response.body).to include("404 - Not Found")
         expect(ChecklistItem.where(checklist_id: other_checklist.id).count).to eq(0)
       end
     end
@@ -218,9 +218,9 @@ RSpec.describe "Checklist Management", type: :request do
         other_checklist = other_user.checklists.create!(name: "Other User's Checklist")
         other_item = other_checklist.checklist_items.create!(name: "Other Item")
 
-        expect {
-          get "/checklist/#{other_checklist.id}/items/#{other_item.id}/edit"
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        get "/checklist/#{other_checklist.id}/items/#{other_item.id}/edit"
+        expect(last_response.status).to eq(404)
+        expect(last_response.body).to include("404 - Not Found")
       end
     end
 
@@ -244,9 +244,9 @@ RSpec.describe "Checklist Management", type: :request do
         other_item = other_checklist.checklist_items.create!(name: "Other Item")
         original_name = other_item.name
 
-        expect {
-          put "/checklist/#{other_checklist.id}/items/#{other_item.id}", {checklist_item: {name: "Hacked Item"}}
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        put "/checklist/#{other_checklist.id}/items/#{other_item.id}", {checklist_item: {name: "Hacked Item"}}
+        expect(last_response.status).to eq(404)
+        expect(last_response.body).to include("404 - Not Found")
         expect(other_item.reload.name).to eq(original_name)
       end
     end
@@ -267,10 +267,9 @@ RSpec.describe "Checklist Management", type: :request do
         other_item = other_checklist.checklist_items.create!(name: "Other Item")
         original_status = other_item.completed
 
-        expect {
-          post "/checklist/#{other_checklist.id}/items/#{other_item.id}/toggle"
-        }.to raise_error(ActiveRecord::RecordNotFound)
-
+        post "/checklist/#{other_checklist.id}/items/#{other_item.id}/toggle"
+        expect(last_response.status).to eq(404)
+        expect(last_response.body).to include("404 - Not Found")
         expect(other_item.reload.completed).to eq(original_status)
       end
     end
@@ -288,10 +287,9 @@ RSpec.describe "Checklist Management", type: :request do
         other_checklist = other_user.checklists.create!(name: "Other User's Checklist")
         other_item = other_checklist.checklist_items.create!(name: "Other Item")
 
-        expect {
-          delete "/checklist/#{other_checklist.id}/items/#{other_item.id}"
-        }.to raise_error(ActiveRecord::RecordNotFound)
-
+        delete "/checklist/#{other_checklist.id}/items/#{other_item.id}"
+        expect(last_response.status).to eq(404)
+        expect(last_response.body).to include("404 - Not Found")
         expect(ChecklistItem.find_by(id: other_item.id)).to be_present
       end
     end
