@@ -8,11 +8,15 @@ require "./models/want"
 require "./models/stoper"
 require "./models/checklist"
 require "./models/checklist_item"
+require_relative "rls_middleware"
+require_relative "models/database_security"
 require_relative "controllers/needs_controller"
 require_relative "controllers/wants_controller"
 require_relative "controllers/emotions_controller"
 require_relative "controllers/esteems_controller"
 require_relative "controllers/checklist_controller"
+# Add RLS middleware before other controllers
+use RLSmiddleware
 use NeedsController
 use WantsController
 use EmotionsController
